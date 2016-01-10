@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using EasyZMq.Configuration;
 using NetMQ;
 using NetMQ.Monitoring;
@@ -9,10 +8,10 @@ namespace EasyZMq.Sockets
     public abstract class EasyZMqReceiverSocket : IEasyZMqReceiverSocket
     {
         private readonly EasyZMqConfiguration _configuration;
-        private readonly NetMQContext _context;
-        private readonly NetMQSocket _socket;
+        private NetMQContext _context;
+        private NetMQSocket _socket;
+        private NetMQMonitor _monitor;
         private Poller _poller;
-        private Task _task;
 
         public event Action Connected;
         public event Action Disconnected;
@@ -23,43 +22,44 @@ namespace EasyZMq.Sockets
             _configuration = configuration;
             _context = context;
             _socket = socket;
+
+            CreatePoller(socket);
+            CreateMonitor(context, socket, _poller);
+            ConfigureSocket(socket);
         }
 
         public void Start()
         {
-            InternalStart();
+            _configuration.AddressBinder.ConnectOrBindAddress(_socket);
+
+            _poller.PollTillCancelledNonBlocking();
         }
 
         public abstract void OnMessageReceived<T>(T message);
 
-        protected void InternalStart()
+        private void CreatePoller(ISocketPollable socket)
         {
-            _task = Task.Factory.StartNew(() =>
-            {
-                using (var monitor = new NetMQMonitor(_context, _socket, string.Format("inproc://{0}.inproc", Guid.NewGuid()),
-                    SocketEvents.Connected | SocketEvents.Disconnected | SocketEvents.ConnectRetried))
-                {
-                    _poller = new Poller(_socket);
+            _poller = new Poller(socket);
+        }
 
-                    monitor.Connected += Monitor_Connected;
-                    monitor.Disconnected += Monitor_Disconnected;
-                    monitor.ConnectRetried += Monitor_ConnectRetried;
-                    monitor.AttachToPoller(_poller);
+        private void CreateMonitor(NetMQContext context, NetMQSocket socket, Poller poller)
+        {
+            _monitor = new NetMQMonitor(context, socket, string.Format("inproc://{0}.inproc", Guid.NewGuid()),
+                SocketEvents.Connected | SocketEvents.Disconnected | SocketEvents.ConnectRetried);
 
-                    _socket.Options.TcpKeepalive = true;
-                    _socket.Options.TcpKeepaliveIdle = TimeSpan.FromSeconds(5);
-                    _socket.Options.TcpKeepaliveInterval = TimeSpan.FromSeconds(1);
-                    _socket.ReceiveReady += Subscriber_ReceiveReady;
+            _monitor.Connected += Monitor_Connected;
+            _monitor.Disconnected += Monitor_Disconnected;
+            _monitor.ConnectRetried += Monitor_ConnectRetried;
 
-                    _configuration.AddressBinder.ConnectOrBindAddress(_socket);
-                    _poller.PollTillCancelled();
+            _monitor.AttachToPoller(poller);
+        }
 
-                    _socket.ReceiveReady -= Subscriber_ReceiveReady;
-                    monitor.Connected -= Monitor_Connected;
-                    monitor.Disconnected -= Monitor_Disconnected;
-                    monitor.ConnectRetried -= Monitor_ConnectRetried;
-                }
-            }, TaskCreationOptions.LongRunning);
+        private void ConfigureSocket(NetMQSocket socket)
+        {
+            socket.Options.TcpKeepalive = true;
+            socket.Options.TcpKeepaliveIdle = TimeSpan.FromSeconds(5);
+            socket.Options.TcpKeepaliveInterval = TimeSpan.FromSeconds(1);
+            socket.ReceiveReady += Subscriber_ReceiveReady;
         }
 
         private void Subscriber_ReceiveReady(object sender, NetMQSocketEventArgs e)
@@ -111,35 +111,59 @@ namespace EasyZMq.Sockets
             }
         }
 
-        private bool disposedValue = false;
+        private bool _disposedValue;
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
                     if (_poller != null)
                     {
                         _poller.CancelAndJoin();
-                        _task.Wait();
-                        _task.Dispose();
-                        _task = null;
 
-                        _poller.Dispose();
-                        _poller = null;
-
-                        _socket.Dispose();
-                        _context.Dispose();
+                        DisposeMonitor();
+                        DisposePoller();
+                        DisposeSocket();
+                        DisposeContext();
                     }
                 }
 
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 
         public void Dispose()
         {
             Dispose(true);
+        }
+
+        private void DisposeMonitor()
+        {
+            _monitor.Connected -= Monitor_Connected;
+            _monitor.Disconnected -= Monitor_Disconnected;
+            _monitor.ConnectRetried -= Monitor_ConnectRetried;
+            _monitor.Dispose();
+            _monitor = null;
+        }
+
+        private void DisposePoller()
+        {
+            _poller.Dispose();
+            _poller = null;
+        }
+
+        private void DisposeSocket()
+        {
+            _socket.ReceiveReady -= Subscriber_ReceiveReady;
+            _socket.Dispose();
+            _socket = null;
+        }
+
+        private void DisposeContext()
+        {
+            _context.Dispose();
+            _context = null;
         }
     }
 }
