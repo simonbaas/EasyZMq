@@ -107,7 +107,7 @@ namespace EasyZMq.Sockets
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                _configuration.Logger.Error("Deserialization and dispatch of incoming message failed.", ex);
             }
         }
 
