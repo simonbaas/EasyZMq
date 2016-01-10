@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using EasyZMq.Configuration;
 
 namespace EasyZMq.Infrastructure
 {
@@ -10,11 +11,14 @@ namespace EasyZMq.Infrastructure
     {
         private readonly Dictionary<Type, Subscription> _subscriptions = new Dictionary<Type, Subscription>();
         private readonly BlockingCollection<dynamic> _queue = new BlockingCollection<dynamic>();
+        private readonly EasyZMqConfiguration _configuration;
+
         private Task _task;
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
-        public MessageDispatcher()
+        public MessageDispatcher(EasyZMqConfiguration configuration)
         {
+            _configuration = configuration;
             _task = StartDispatcher();
         }
 
@@ -35,7 +39,7 @@ namespace EasyZMq.Infrastructure
         {
             _queue.Add(message);
         }
-        
+
         private Task StartDispatcher()
         {
             return Task.Run(() =>
@@ -51,23 +55,26 @@ namespace EasyZMq.Infrastructure
                 catch (OperationCanceledException) { }
             });
         }
-        
+
         private void DispatchToSubscriber(dynamic message)
         {
+            Subscription subscription;
+            if (!_subscriptions.TryGetValue(message.GetType(), out subscription))
+            {
+                _configuration.Logger.Warning("No suitable subscriber found for message type: {0}", message.GetType().ToString());
+                return;
+            }
+
             try
             {
-                Subscription subscription;
-                if (_subscriptions.TryGetValue(message.GetType(), out subscription))
-                {
-                    subscription.OnReceived(message);
-                }
+                subscription.OnReceived(message);
             }
             catch (Exception ex)
             {
-                // TODO: Log
+                _configuration.Logger.Error(string.Format("Subscriber {0} threw an unhandled exception", subscription.GetType()), ex);
             }
         }
-        
+
         public void Dispose()
         {
             Dispose(true);

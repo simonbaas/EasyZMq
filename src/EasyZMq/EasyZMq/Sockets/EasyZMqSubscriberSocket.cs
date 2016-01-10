@@ -7,11 +7,13 @@ namespace EasyZMq.Sockets
 {
     public class EasyZMqSubscriberSocket : EasyZMqReceiverSocket, IEasyZMqSubscriberSocket
     {
-        private IMessageDispatcher _dispatcher = new MessageDispatcher();
+        private IMessageDispatcher _dispatcher;
 
         public EasyZMqSubscriberSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
             : base(configuration, context, socket)
-        { }
+        {
+            _dispatcher = new MessageDispatcher(configuration);
+        }
 
         public IDisposable On<T>(Action<T> action)
         {
