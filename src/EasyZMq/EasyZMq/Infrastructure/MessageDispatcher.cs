@@ -46,9 +46,8 @@ namespace EasyZMq.Infrastructure
             {
                 try
                 {
-                    while (true)
+                    foreach (var message in _queue.GetConsumingEnumerable(_cts.Token))
                     {
-                        var message = _queue.Take(_cts.Token);
                         DispatchToSubscriber(message);
                     }
                 }
