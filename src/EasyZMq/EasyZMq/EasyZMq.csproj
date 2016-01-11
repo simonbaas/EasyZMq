@@ -55,6 +55,7 @@
     <Compile Include="Configuration\EasyZMqConfiguration.cs" />
     <Compile Include="Configuration\EasyZMqConfigure.cs" />
     <Compile Include="Configuration\EasyZMqConfigurer.cs" />
+    <Compile Include="Infrastructure\BindRandomPortAddressBinder.cs" />
     <Compile Include="Infrastructure\DisposableAction.cs" />
     <Compile Include="Infrastructure\IHandleMessage.cs" />
     <Compile Include="Infrastructure\BindAddressBinder.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Sockets\IEasyZMqPublisherSocket.cs" />
     <Compile Include="Sockets\IEasyZMqReceiverSocket.cs" />
     <Compile Include="Sockets\IEasyZMqSenderSocket.cs" />
+    <Compile Include="Sockets\IEasyZMqSocket.cs" />
     <Compile Include="Sockets\IEasyZMqSubscriberSocket.cs" />
   </ItemGroup>
   <ItemGroup>

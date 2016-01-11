@@ -22,10 +22,15 @@ namespace EasyZMq.Sockets
             _configuration = configuration;
             _context = context;
             _socket = socket;
-
+            
             CreatePoller(socket);
             CreateMonitor(context, socket, _poller);
             ConfigureSocket(socket);
+        }
+
+        public Uri Uri
+        {
+            get { return _configuration.AddressBinder.Uri; }
         }
 
         public void Start()

@@ -9,8 +9,8 @@ namespace EasyZMq.Configuration
         {
             if (string.IsNullOrEmpty(address)) throw new ArgumentNullException("address");
 
-            var configuration = new EasyZMqConfiguration();
-            configuration.AddressBinder = new ConnectAddressBinder(address);
+            var uri = new Uri(address);
+            var configuration = new EasyZMqConfiguration { AddressBinder = new ConnectAddressBinder(uri) };
 
             return new EasyZMqConfigurer(configuration);
         }
@@ -19,8 +19,17 @@ namespace EasyZMq.Configuration
         {
             if (string.IsNullOrEmpty(address)) throw new ArgumentNullException("address");
 
-            var configuration = new EasyZMqConfiguration();
-            configuration.AddressBinder = new BindAddressBinder(address);
+            var uri = new Uri(address);
+            var configuration = new EasyZMqConfiguration { AddressBinder = new BindAddressBinder(uri)};
+
+            return new EasyZMqConfigurer(configuration);
+        }
+
+        public static EasyZMqConfigurer BindRandomPort(string address)
+        {
+            if (string.IsNullOrEmpty(address)) throw new ArgumentNullException("address");
+
+            var configuration = new EasyZMqConfiguration {AddressBinder = new BindRandomPortAddressBinder(address)};
 
             return new EasyZMqConfigurer(configuration);
         }

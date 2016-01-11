@@ -19,6 +19,11 @@ namespace EasyZMq.Sockets
             _configuration.AddressBinder.ConnectOrBindAddress(socket);
         }
 
+        public Uri Uri
+        {
+            get { return _configuration.AddressBinder.Uri; }
+        }
+
         public void SendMessage<T>(string topic, T message)
         {
             var serializedMessage = _configuration.Serializer.Serialize(message);
@@ -26,15 +31,10 @@ namespace EasyZMq.Sockets
             _socket.SendMoreFrame(topic).SendFrame(serializedMessage);
         }
 
-        public void Start()
-        {
-            throw new NotImplementedException();
-        }
-
-        private bool disposedValue = false;
+        private bool _disposedValue;
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
@@ -42,7 +42,7 @@ namespace EasyZMq.Sockets
                     _context.Dispose();
                 }
 
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 

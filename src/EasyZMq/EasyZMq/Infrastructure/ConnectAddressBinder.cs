@@ -1,19 +1,21 @@
-﻿using NetMQ;
+﻿using System;
+using NetMQ;
 
 namespace EasyZMq.Infrastructure
 {
     public class ConnectAddressBinder : IAddressBinder
     {
-        private readonly string _address;
+        public Uri Uri { get; }
 
-        public ConnectAddressBinder(string address)
+        public ConnectAddressBinder(Uri uri)
         {
-            _address = address;
+            Uri = uri;
         }
 
         public void ConnectOrBindAddress(NetMQSocket socket)
         {
-            socket.Connect(_address);
+            var address = string.Format("{0}://{1}:{2}", Uri.Scheme, Uri.Host, Uri.Port);
+            socket.Connect(address);
         }
     }
 }
