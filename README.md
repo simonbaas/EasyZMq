@@ -8,6 +8,16 @@ Publish/subscribe is currently supported by the library.
 Publisher
 ```csharp
 var topic = string.Empty;
+using (var publisher = EasyZMqConfigure
+    .BindTo("tcp://localhost:1337")
+    .AsPublisher())
+  {
+      publisher.PublishMessage(topic, "This is the message");
+  }
+```
+Subscriber
+```csharp
+var topic = string.Empty;
 using (var subscriber = EasyZMqConfigure
     .ConnectTo("tcp://localhost:1337")
     .AsSubscriber(topic))
@@ -18,16 +28,5 @@ using (var subscriber = EasyZMqConfigure
   
       Console.WriteLine("Waiting for messages");
       Console.ReadKey();
-  }
-```
-
-Subscriber
-```csharp
-var topic = string.Empty;
-using (var publisher = EasyZMqConfigure
-    .BindTo("tcp://localhost:1337")
-    .AsPublisher())
-  {
-      publisher.PublishMessage(topic, "This is the message");
   }
 ```
