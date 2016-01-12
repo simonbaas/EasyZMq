@@ -30,3 +30,5 @@ using (var subscriber = EasyZMqConfigure
       Console.ReadKey();
   }
 ```
+## Requirements
+.NET Framework 4.5
