@@ -111,7 +111,7 @@ namespace EasyZMq.Tests
         }
 
         [Test]
-        public void One_publisher_one_subscriber_complex_message()
+        public void One_publisher_one_subscriber_rich_object_messages()
         {
             var topic = "";
 
