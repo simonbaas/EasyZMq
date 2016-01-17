@@ -70,10 +70,17 @@ namespace EasyZMq.Sockets
         private void Subscriber_ReceiveReady(object sender, NetMQSocketEventArgs e)
         {
             bool more;
-            var data = e.Socket.ReceiveFrameString(out more);
-            if (more) data = e.Socket.ReceiveFrameString();
+            e.Socket.ReceiveFrameString(out more);
 
-            DeserializeAndDispatch(data);
+            if (!more)
+            {
+                _configuration.Logger.Warning("Invalid message received! The messsage was discarded.");
+                return;
+            }
+
+            var bytes = e.Socket.ReceiveFrameBytes();
+
+            DeserializeAndDispatch(bytes);
         }
 
         private void Monitor_Connected(object sender, NetMQMonitorSocketEventArgs e)
@@ -103,11 +110,11 @@ namespace EasyZMq.Sockets
             }
         }
 
-        private void DeserializeAndDispatch(string data)
+        private void DeserializeAndDispatch(byte[] bytes)
         {
             try
             {
-                var message = _configuration.Serializer.Deserialize<dynamic>(data);
+                dynamic message = _configuration.Serializer.Deserialize(bytes);
                 OnMessageReceived(message);
             }
             catch (Exception ex)

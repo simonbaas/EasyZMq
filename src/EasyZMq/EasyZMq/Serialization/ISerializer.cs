@@ -2,7 +2,7 @@ namespace EasyZMq.Serialization
 {
     public interface ISerializer
     {
-        T Deserialize<T>(string strObj);
-        string Serialize<T>(T obj);
+        object Deserialize(byte[] bytes);
+        byte[] Serialize<T>(T obj);
     }
 }

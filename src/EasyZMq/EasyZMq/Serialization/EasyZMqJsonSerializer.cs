@@ -1,23 +1,25 @@
+using System.Text;
 using Newtonsoft.Json;
 
 namespace EasyZMq.Serialization
 {
     public class EasyZMqJsonSerializer : ISerializer
     {
-        public T Deserialize<T>(string value)
+        private readonly Encoding _textEncoding = Encoding.UTF8;
+        private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+
+        public object Deserialize(byte[] bytes)
         {
-            return JsonConvert.DeserializeObject<T>(value, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            });
+            var str = _textEncoding.GetString(bytes);
+
+            return JsonConvert.DeserializeObject(str, _jsonSerializerSettings);
         }
 
-        public string Serialize<T>(T value)
+        public byte[] Serialize<T>(T value)
         {
-            return JsonConvert.SerializeObject(value, Formatting.None, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            });
+            var str = JsonConvert.SerializeObject(value, Formatting.None, _jsonSerializerSettings);
+
+            return _textEncoding.GetBytes(str);
         }
     }
 }
