@@ -1,5 +1,5 @@
 # EasyZMq
-EasyZMq is a wrapper around NetMQ and it's goal is to provide an easy api when working with ZeroMQ on .NET.
+EasyZMq is a wrapper around NetMQ and its goal is to provide an easy api when working with ZeroMQ on .NET.
 
 ## Using
 Publish/subscribe is currently supported by the library.
@@ -30,3 +30,5 @@ using (var subscriber = EasyZMqConfigure
       Console.ReadKey();
   }
 ```
+## Requirements
+.NET Framework 4.5
