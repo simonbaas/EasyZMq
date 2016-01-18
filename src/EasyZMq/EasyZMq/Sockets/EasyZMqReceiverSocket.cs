@@ -1,5 +1,6 @@
 using System;
 using EasyZMq.Configuration;
+using EasyZMq.Logging;
 using NetMQ;
 using NetMQ.Monitoring;
 
@@ -8,6 +9,7 @@ namespace EasyZMq.Sockets
     public abstract class EasyZMqReceiverSocket : IEasyZMqReceiverSocket
     {
         private readonly EasyZMqConfiguration _configuration;
+        private readonly ILogger _logger;
         private NetMQContext _context;
         private NetMQSocket _socket;
         private NetMQMonitor _monitor;
@@ -20,9 +22,10 @@ namespace EasyZMq.Sockets
         protected EasyZMqReceiverSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
         {
             _configuration = configuration;
+            _logger = configuration.EasyZMqLoggerFactory.GetLogger(typeof (EasyZMqReceiverSocket));
             _context = context;
             _socket = socket;
-            
+
             CreatePoller(socket);
             CreateMonitor(context, socket, _poller);
             ConfigureSocket(socket);
@@ -74,7 +77,7 @@ namespace EasyZMq.Sockets
 
             if (!more)
             {
-                _configuration.Logger.Warning("Invalid message received! The messsage was discarded.");
+                _logger.Warning("Invalid message received! The messsage was discarded.");
                 return;
             }
 
@@ -119,7 +122,7 @@ namespace EasyZMq.Sockets
             }
             catch (Exception ex)
             {
-                _configuration.Logger.Error("Deserialization and dispatch of incoming message failed.", ex);
+                _logger.Error("Deserialization and dispatch of incoming message failed.", ex);
             }
         }
 

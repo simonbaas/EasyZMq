@@ -8,32 +8,28 @@ namespace EasyZMq.Configuration
 {
     public class EasyZMqConfigurer
     {
-        public EasyZMqConfiguration Configuration { get; private set; }
+        public EasyZMqConfiguration Configuration { get; }
         
         public EasyZMqConfigurer(EasyZMqConfiguration configuration)
         {
             Configuration = configuration;
 
-            AddDefaultLogger();
-            AddDefaultSerializer();
+            SetDefaultLogger();
+            SetDefaultSerializer();
         }
 
-        public EasyZMqConfigurer SetSerializer(ISerializer serializer)
+        public void Use(ISerializer serializer)
         {
             if (serializer == null) throw new ArgumentNullException("serializer");
 
             Configuration.Serializer = serializer;
-
-            return this;
         }
 
-        public EasyZMqConfigurer SetLogger(ILogger logger)
+        public void Use(IEasyZMqLoggerFactory easyZMqLoggerFactory)
         {
-            if (logger == null) throw new ArgumentNullException("logger");
+            if (easyZMqLoggerFactory == null) throw new ArgumentNullException("easyZMqLoggerFactory");
 
-            Configuration.Logger = logger;
-
-            return this;
+            Configuration.EasyZMqLoggerFactory = easyZMqLoggerFactory;
         }
 
         public IEasyZMqSubscriberSocket AsSubscriber(string topic)
@@ -53,14 +49,14 @@ namespace EasyZMq.Configuration
             return new EasyZMqPublisherSocket(Configuration, context, socket);
         }
 
-        private void AddDefaultSerializer()
+        private void SetDefaultSerializer()
         {
-            Configuration.Serializer = new EasyZMqJsonSerializer();
+            Use(new EasyZMqJsonSerializer());
         }
 
-        private void AddDefaultLogger()
+        private void SetDefaultLogger()
         {
-            Configuration.Logger = new EasyZMqNullLogger();
+            Use(new EasyZMqNullEasyZMqLoggerFactory());
         }
     }
 }

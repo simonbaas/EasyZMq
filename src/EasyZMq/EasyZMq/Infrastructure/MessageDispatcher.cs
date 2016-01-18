@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using EasyZMq.Configuration;
+using EasyZMq.Logging;
 
 namespace EasyZMq.Infrastructure
 {
@@ -12,6 +13,7 @@ namespace EasyZMq.Infrastructure
         private readonly Dictionary<Type, Subscription> _subscriptions = new Dictionary<Type, Subscription>();
         private readonly BlockingCollection<dynamic> _queue = new BlockingCollection<dynamic>();
         private readonly EasyZMqConfiguration _configuration;
+        private readonly ILogger _logger;
 
         private Task _task;
         private CancellationTokenSource _cts = new CancellationTokenSource();
@@ -20,6 +22,7 @@ namespace EasyZMq.Infrastructure
         {
             _configuration = configuration;
             _task = StartDispatcher();
+            _logger = configuration.EasyZMqLoggerFactory.GetLogger(typeof (MessageDispatcher));
         }
 
         public Subscription Subscribe<T>()
@@ -60,7 +63,7 @@ namespace EasyZMq.Infrastructure
             Subscription subscription;
             if (!_subscriptions.TryGetValue(message.GetType(), out subscription))
             {
-                _configuration.Logger.Warning("No suitable subscriber found for message type: {0}", message.GetType().ToString());
+                _logger.Warning("No suitable subscriber found for message type: {0}", message.GetType().ToString());
                 return;
             }
 
@@ -70,7 +73,7 @@ namespace EasyZMq.Infrastructure
             }
             catch (Exception ex)
             {
-                _configuration.Logger.Error(string.Format("Subscriber {0} threw an unhandled exception", subscription.GetType()), ex);
+                _logger.Error(string.Format("Subscriber {0} threw an unhandled exception", subscription.GetType()), ex);
             }
         }
 
