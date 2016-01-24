@@ -31,6 +31,12 @@ namespace EasyZMq.Sockets
             _socket.SendMoreFrame(topic).SendFrame(serializedMessage);
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         private bool _disposedValue;
         protected virtual void Dispose(bool disposing)
         {
@@ -44,11 +50,6 @@ namespace EasyZMq.Sockets
 
                 _disposedValue = true;
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
         }
     }
 }
