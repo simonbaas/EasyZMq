@@ -6,7 +6,7 @@ namespace EasyZMq.Log4net
     {
         public static EasyZMqConfigurer UseLog4Net(this EasyZMqConfigurer configurer)
         {
-            configurer.Use(new EasyZMqLog4NetEasyZMqLoggerFactory());
+            configurer.Use(new EasyZMqLog4NetLoggerFactory());
 
             return configurer;
         }
