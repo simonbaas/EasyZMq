@@ -8,11 +8,11 @@ namespace EasyZMq.Configuration
 {
     public class EasyZMqConfigurer
     {
-        public EasyZMqConfiguration Configuration { get; }
+        private readonly EasyZMqConfiguration _configuration;
         
         public EasyZMqConfigurer(EasyZMqConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
 
             SetDefaultLogger();
             SetDefaultSerializer();
@@ -22,14 +22,14 @@ namespace EasyZMq.Configuration
         {
             if (serializer == null) throw new ArgumentNullException(nameof(serializer));
 
-            Configuration.Serializer = serializer;
+            _configuration.Serializer = serializer;
         }
 
         public void Use(IEasyZMqLoggerFactory easyZMqLoggerFactory)
         {
             if (easyZMqLoggerFactory == null) throw new ArgumentNullException(nameof(easyZMqLoggerFactory));
 
-            Configuration.EasyZMqLoggerFactory = easyZMqLoggerFactory;
+            _configuration.EasyZMqLoggerFactory = easyZMqLoggerFactory;
         }
 
         public IEasyZMqSubscriberSocket AsSubscriber(string topic)
@@ -38,7 +38,7 @@ namespace EasyZMq.Configuration
             var socket = context.CreateSubscriberSocket();
             socket.Subscribe(topic);
 
-            return new EasyZMqSubscriberSocket(Configuration, context, socket);
+            return new EasyZMqSubscriberSocket(_configuration, context, socket);
         }
 
         public IEasyZMqPublisherSocket AsPublisher()
@@ -46,7 +46,7 @@ namespace EasyZMq.Configuration
             var context = NetMQContext.Create();
             var socket = context.CreatePublisherSocket();
 
-            return new EasyZMqPublisherSocket(Configuration, context, socket);
+            return new EasyZMqPublisherSocket(_configuration, context, socket);
         }
 
         private void SetDefaultSerializer()
