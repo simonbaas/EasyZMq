@@ -18,8 +18,8 @@ namespace EasyZMq.Infrastructure
 
         public MessageDispatcher(EasyZMqConfiguration configuration)
         {
+            _logger = configuration.EasyZMqLoggerFactory.GetLogger(typeof(MessageDispatcher));
             _task = StartDispatcher();
-            _logger = configuration.EasyZMqLoggerFactory.GetLogger(typeof (MessageDispatcher));
         }
 
         public Subscription Subscribe<T>()
