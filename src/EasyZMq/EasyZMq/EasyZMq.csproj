@@ -56,6 +56,8 @@
     <Compile Include="Configuration\EasyZMqConfiguration.cs" />
     <Compile Include="Configuration\EasyZMqConfigure.cs" />
     <Compile Include="Configuration\EasyZMqConfigurer.cs" />
+    <Compile Include="Configuration\EasyZMqPublisherSocketConfigurerExtension.cs" />
+    <Compile Include="Configuration\EasyZMqSubscriberSocketConfigurerExtension.cs" />
     <Compile Include="Infrastructure\BindRandomPortAddressBinder.cs" />
     <Compile Include="Infrastructure\DisposableAction.cs" />
     <Compile Include="Infrastructure\IHandleMessage.cs" />
@@ -87,6 +89,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
