@@ -36,7 +36,7 @@ namespace EasyZMq.Infrastructure
 
         private Task StartDispatcher()
         {
-            return Task.Run(() =>
+            return Task.Factory.StartNew(() =>
             {
                 try
                 {
@@ -46,7 +46,7 @@ namespace EasyZMq.Infrastructure
                     }
                 }
                 catch (OperationCanceledException) { }
-            });
+            }, _cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
         private void DispatchToSubscriber(dynamic message)
@@ -71,6 +71,7 @@ namespace EasyZMq.Infrastructure
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         private bool _disposedValue;
@@ -84,6 +85,9 @@ namespace EasyZMq.Infrastructure
                     {
                         _cts.Cancel();
                         _task.Wait();
+
+                        _cts.Dispose();
+                        _task.Dispose();
 
                         _cts = null;
                         _task = null;
