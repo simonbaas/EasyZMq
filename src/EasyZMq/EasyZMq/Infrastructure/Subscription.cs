@@ -9,10 +9,7 @@ namespace EasyZMq.Infrastructure
         public void OnReceived(dynamic message)
         {
             var handler = Received;
-            if (handler != null)
-            {
-                handler(message);
-            }
+            handler?.Invoke(message);
         }
     }
 }

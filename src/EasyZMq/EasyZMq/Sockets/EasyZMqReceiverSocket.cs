@@ -31,10 +31,7 @@ namespace EasyZMq.Sockets
             ConfigureSocket(socket);
         }
 
-        public Uri Uri
-        {
-            get { return _configuration.AddressBinder.Uri; }
-        }
+        public Uri Uri => _configuration.AddressBinder.Uri;
 
         public void Start()
         {
@@ -54,7 +51,7 @@ namespace EasyZMq.Sockets
 
         private void CreateMonitor(NetMQContext context, NetMQSocket socket, Poller poller)
         {
-            _monitor = new NetMQMonitor(context, socket, string.Format("inproc://{0}.inproc", Guid.NewGuid()),
+            _monitor = new NetMQMonitor(context, socket, $"inproc://{Guid.NewGuid()}.inproc",
                 SocketEvents.Connected | SocketEvents.Disconnected | SocketEvents.ConnectRetried);
 
             _monitor.Connected += Monitor_Connected;
@@ -91,28 +88,19 @@ namespace EasyZMq.Sockets
         private void Monitor_Connected(object sender, NetMQMonitorSocketEventArgs e)
         {
             var handler = Connected;
-            if (handler != null)
-            {
-                handler();
-            }
+            handler?.Invoke();
         }
 
         private void Monitor_Disconnected(object sender, NetMQMonitorSocketEventArgs e)
         {
             var handler = Disconnected;
-            if (handler != null)
-            {
-                handler();
-            }
+            handler?.Invoke();
         }
 
         private void Monitor_ConnectRetried(object sender, NetMQMonitorIntervalEventArgs e)
         {
             var handler = ConnectRetried;
-            if (handler != null)
-            {
-                handler();
-            }
+            handler?.Invoke();
         }
 
         private void DeserializeAndDispatch(byte[] bytes)

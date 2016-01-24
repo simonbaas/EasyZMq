@@ -14,7 +14,7 @@ namespace EasyZMq.Infrastructure
 
         public void ConnectOrBindAddress(NetMQSocket socket)
         {
-            var address = string.Format("{0}://{1}:{2}", Uri.Scheme, Uri.Host, Uri.Port);
+            var address = $"{Uri.Scheme}://{Uri.Host}:{Uri.Port}";
             socket.Connect(address);
         }
     }

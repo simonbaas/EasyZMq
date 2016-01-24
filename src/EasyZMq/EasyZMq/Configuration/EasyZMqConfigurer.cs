@@ -20,14 +20,14 @@ namespace EasyZMq.Configuration
 
         public void Use(ISerializer serializer)
         {
-            if (serializer == null) throw new ArgumentNullException("serializer");
+            if (serializer == null) throw new ArgumentNullException(nameof(serializer));
 
             Configuration.Serializer = serializer;
         }
 
         public void Use(IEasyZMqLoggerFactory easyZMqLoggerFactory)
         {
-            if (easyZMqLoggerFactory == null) throw new ArgumentNullException("easyZMqLoggerFactory");
+            if (easyZMqLoggerFactory == null) throw new ArgumentNullException(nameof(easyZMqLoggerFactory));
 
             Configuration.EasyZMqLoggerFactory = easyZMqLoggerFactory;
         }

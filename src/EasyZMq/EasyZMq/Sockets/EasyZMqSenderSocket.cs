@@ -19,10 +19,7 @@ namespace EasyZMq.Sockets
             _configuration.AddressBinder.ConnectOrBindAddress(socket);
         }
 
-        public Uri Uri
-        {
-            get { return _configuration.AddressBinder.Uri; }
-        }
+        public Uri Uri => _configuration.AddressBinder.Uri;
 
         public void SendMessage<T>(string topic, T message)
         {

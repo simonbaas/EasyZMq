@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -10,6 +11,8 @@ namespace EasyZMq.Serialization
 
         public object Deserialize(byte[] bytes)
         {
+            if (bytes == null) throw new ArgumentNullException(nameof(bytes));
+
             var str = _textEncoding.GetString(bytes);
 
             return JsonConvert.DeserializeObject(str, _jsonSerializerSettings);
@@ -17,6 +20,8 @@ namespace EasyZMq.Serialization
 
         public byte[] Serialize<T>(T value)
         {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+
             var str = JsonConvert.SerializeObject(value, Formatting.None, _jsonSerializerSettings);
 
             return _textEncoding.GetBytes(str);
