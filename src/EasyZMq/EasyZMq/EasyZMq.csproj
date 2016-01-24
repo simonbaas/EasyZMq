@@ -82,6 +82,7 @@
     <Compile Include="Sockets\IEasyZMqSenderSocket.cs" />
     <Compile Include="Sockets\IEasyZMqSocket.cs" />
     <Compile Include="Sockets\IEasyZMqSubscriberSocket.cs" />
+    <Compile Include="Sockets\IMonitorConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
