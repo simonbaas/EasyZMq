@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using EasyZMq.Configuration;
@@ -10,9 +9,8 @@ namespace EasyZMq.Infrastructure
 {
     public class MessageDispatcher : IMessageDispatcher
     {
-        private readonly Dictionary<Type, Subscription> _subscriptions = new Dictionary<Type, Subscription>();
+        private readonly ConcurrentDictionary<Type, Subscription> _subscriptions = new ConcurrentDictionary<Type, Subscription>();
         private readonly BlockingCollection<dynamic> _queue = new BlockingCollection<dynamic>();
-        private readonly EasyZMqConfiguration _configuration;
         private readonly ILogger _logger;
 
         private Task _task;
@@ -20,7 +18,6 @@ namespace EasyZMq.Infrastructure
 
         public MessageDispatcher(EasyZMqConfiguration configuration)
         {
-            _configuration = configuration;
             _task = StartDispatcher();
             _logger = configuration.EasyZMqLoggerFactory.GetLogger(typeof (MessageDispatcher));
         }
@@ -28,13 +25,7 @@ namespace EasyZMq.Infrastructure
         public Subscription Subscribe<T>()
         {
             var type = typeof(T);
-            Subscription subscription;
-            if (!_subscriptions.TryGetValue(type, out subscription))
-            {
-                subscription = new Subscription();
-                _subscriptions.Add(type, subscription);
-            }
-
+            var subscription = _subscriptions.GetOrAdd(type, _ => new Subscription());
             return subscription;
         }
 
