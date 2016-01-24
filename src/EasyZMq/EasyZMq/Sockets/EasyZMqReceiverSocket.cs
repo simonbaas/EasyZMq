@@ -77,7 +77,7 @@ namespace EasyZMq.Sockets
 
             if (!more)
             {
-                _logger.Warning("Invalid message received! The messsage was discarded.");
+                _logger.Warning("Invalid message received! The message was discarded.");
                 return;
             }
 
