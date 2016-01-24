@@ -38,6 +38,8 @@ namespace EasyZMq.Sockets
 
         public void Start()
         {
+            if (_disposedValue) throw new ObjectDisposedException("EasyZMqReceiverSocket");
+
             _configuration.AddressBinder.ConnectOrBindAddress(_socket);
 
             _poller.PollTillCancelledNonBlocking();
@@ -126,6 +128,12 @@ namespace EasyZMq.Sockets
             }
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         private bool _disposedValue;
         protected virtual void Dispose(bool disposing)
         {
@@ -146,11 +154,6 @@ namespace EasyZMq.Sockets
 
                 _disposedValue = true;
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
         }
 
         private void DisposeMonitor()
