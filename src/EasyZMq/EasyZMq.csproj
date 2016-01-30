@@ -56,8 +56,8 @@
     <Compile Include="Configuration\EasyZMqConfiguration.cs" />
     <Compile Include="Configuration\EasyZMqConfigure.cs" />
     <Compile Include="Configuration\EasyZMqConfigurer.cs" />
-    <Compile Include="Configuration\EasyZMqPublisherSocketConfigurerExtension.cs" />
-    <Compile Include="Configuration\EasyZMqSubscriberSocketConfigurerExtension.cs" />
+    <Compile Include="Sockets\Publisher\EasyZMqPublisherSocketConfigurerExtension.cs" />
+    <Compile Include="Sockets\Subscriber\EasyZMqSubscriberSocketConfigurerExtension.cs" />
     <Compile Include="Infrastructure\BindRandomPortAddressBinder.cs" />
     <Compile Include="Infrastructure\DisposableAction.cs" />
     <Compile Include="Infrastructure\IHandleMessage.cs" />
@@ -75,15 +75,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\EasyZMqJsonSerializer.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
-    <Compile Include="Sockets\EasyZMqPublisherSocket.cs" />
+    <Compile Include="Sockets\Publisher\EasyZMqPublisherSocket.cs" />
     <Compile Include="Sockets\EasyZMqReceiverSocket.cs" />
     <Compile Include="Sockets\EasyZMqSenderSocket.cs" />
-    <Compile Include="Sockets\EasyZMqSubscriberSocket.cs" />
-    <Compile Include="Sockets\IEasyZMqPublisherSocket.cs" />
+    <Compile Include="Sockets\Subscriber\EasyZMqSubscriberSocket.cs" />
+    <Compile Include="Sockets\Publisher\IEasyZMqPublisherSocket.cs" />
     <Compile Include="Sockets\IEasyZMqReceiverSocket.cs" />
     <Compile Include="Sockets\IEasyZMqSenderSocket.cs" />
     <Compile Include="Sockets\IEasyZMqSocket.cs" />
-    <Compile Include="Sockets\IEasyZMqSubscriberSocket.cs" />
+    <Compile Include="Sockets\Subscriber\IEasyZMqSubscriberSocket.cs" />
     <Compile Include="Sockets\IMonitorConnection.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
-﻿using EasyZMq.Sockets;
+﻿using EasyZMq.Configuration;
 using NetMQ;
 
-namespace EasyZMq.Configuration
+namespace EasyZMq.Sockets.Publisher
 {
     public static class EasyZMqPublisherSocketConfigurerExtension
     {

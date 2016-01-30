@@ -2,7 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using EasyZMq.Configuration;
-using EasyZMq.Sockets;
+using EasyZMq.Sockets.Publisher;
+using EasyZMq.Sockets.Subscriber;
 using NUnit.Framework;
 
 namespace EasyZMq.Tests

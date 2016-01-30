@@ -1,7 +1,7 @@
 ﻿using EasyZMq.Configuration;
 using NetMQ;
 
-namespace EasyZMq.Sockets
+namespace EasyZMq.Sockets.Publisher
 {
     public class EasyZMqPublisherSocket : EasyZMqSenderSocket, IEasyZMqPublisherSocket
     {

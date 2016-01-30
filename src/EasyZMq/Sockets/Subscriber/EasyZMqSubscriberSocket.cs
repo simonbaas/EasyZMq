@@ -3,7 +3,7 @@ using EasyZMq.Configuration;
 using EasyZMq.Infrastructure;
 using NetMQ;
 
-namespace EasyZMq.Sockets
+namespace EasyZMq.Sockets.Subscriber
 {
     public class EasyZMqSubscriberSocket : EasyZMqReceiverSocket, IEasyZMqSubscriberSocket
     {

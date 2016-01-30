@@ -1,6 +1,6 @@
 using System;
 
-namespace EasyZMq.Sockets
+namespace EasyZMq.Sockets.Subscriber
 {
     public interface IEasyZMqSubscriberSocket : IDisposable
     {
