@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace EasyZMq.Tests
 {
-    [TestFixture(Author = "Simon Baas", Description = "Publish/subscribe tests")]
+    [TestFixture(Author = "Simon Baas", Description = "Publish/Subscribe Tests")]
     public class PubSubTests
     {
         [TestCase("", Description = "Empty topic")]
