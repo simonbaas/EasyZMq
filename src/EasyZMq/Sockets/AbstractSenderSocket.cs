@@ -1,29 +1,33 @@
 ﻿using System;
 using EasyZMq.Configuration;
+using EasyZMq.Infrastructure;
+using EasyZMq.Serialization;
 using NetMQ;
 
 namespace EasyZMq.Sockets
 {
     public abstract class AbstractSenderSocket : ISenderSocket
     {
-        private readonly EasyZMqConfiguration _configuration;
+        private readonly ISerializer _serializer;
+        private readonly IAddressBinder _addressBinder;
         private readonly NetMQContext _context;
         private readonly NetMQSocket _socket;
 
-        protected AbstractSenderSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
+        protected AbstractSenderSocket(ISerializer serializer, IAddressBinder addressBinder, NetMQContext context, NetMQSocket socket)
         {
-            _configuration = configuration;
+            _serializer = serializer;
+            _addressBinder = addressBinder;
             _context = context;
             _socket = socket;
 
-            _configuration.AddressBinder.ConnectOrBindAddress(socket);
+            _addressBinder.ConnectOrBindAddress(socket);
         }
 
-        public Uri Uri => _configuration.AddressBinder.Uri;
+        public Uri Uri => _addressBinder.Uri;
 
         public void SendMessage<T>(string topic, T message)
         {
-            var serializedMessage = _configuration.Serializer.Serialize(message);
+            var serializedMessage = _serializer.Serialize(message);
 
             _socket.SendMoreFrame(topic).SendFrame(serializedMessage);
         }

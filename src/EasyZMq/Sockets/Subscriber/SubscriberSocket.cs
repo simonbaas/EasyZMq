@@ -1,6 +1,7 @@
 using System;
-using EasyZMq.Configuration;
 using EasyZMq.Infrastructure;
+using EasyZMq.Logging;
+using EasyZMq.Serialization;
 using NetMQ;
 
 namespace EasyZMq.Sockets.Subscriber
@@ -9,10 +10,10 @@ namespace EasyZMq.Sockets.Subscriber
     {
         private IMessageDispatcher _dispatcher;
 
-        public SubscriberSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
-            : base(configuration, context, socket)
+        public SubscriberSocket(ISerializer serializer, IAddressBinder addressBinder, ILoggerFactory loggerFactory, NetMQContext context, NetMQSocket socket)
+            : base(serializer, addressBinder, loggerFactory, context, socket)
         {
-            _dispatcher = new MessageDispatcher(configuration);
+            _dispatcher = new MessageDispatcher(loggerFactory);
         }
 
         public IDisposable On<T>(Action<T> action)

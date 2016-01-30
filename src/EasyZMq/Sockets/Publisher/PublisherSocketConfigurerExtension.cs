@@ -7,10 +7,12 @@ namespace EasyZMq.Sockets.Publisher
     {
         public static IPublisherSocket AsPublisher(this EasyZMqConfigurer configurer)
         {
+            var serializer = configurer.Configuration.Serializer;
+            var addressBinder = configurer.Configuration.AddressBinder;
             var context = NetMQContext.Create();
             var socket = context.CreatePublisherSocket();
 
-            return new PublisherSocket(configurer.Configuration, context, socket);
+            return new PublisherSocket(serializer, addressBinder, context, socket);
         }
     }
 }

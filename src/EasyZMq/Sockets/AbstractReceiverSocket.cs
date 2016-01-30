@@ -1,7 +1,7 @@
 using System;
-using EasyZMq.Configuration;
 using EasyZMq.Infrastructure;
 using EasyZMq.Logging;
+using EasyZMq.Serialization;
 using NetMQ;
 using NetMQ.Monitoring;
 
@@ -9,8 +9,9 @@ namespace EasyZMq.Sockets
 {
     public abstract class AbstractReceiverSocket : IReceiverSocket, IMonitorConnection
     {
-        private readonly EasyZMqConfiguration _configuration;
         private readonly ILogger _logger;
+        private readonly ISerializer _serializer;
+        private readonly IAddressBinder _addressBinder;
         private NetMQContext _context;
         private NetMQSocket _socket;
         private NetMQMonitor _monitor;
@@ -20,10 +21,11 @@ namespace EasyZMq.Sockets
         public event Action Disconnected;
         public event Action ConnectRetried;
 
-        protected AbstractReceiverSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
+        protected AbstractReceiverSocket(ISerializer serializer, IAddressBinder addressBinder, ILoggerFactory loggerFactory, NetMQContext context, NetMQSocket socket)
         {
-            _configuration = configuration;
-            _logger = configuration.LoggerFactory.GetLogger(typeof (AbstractReceiverSocket));
+            _logger = loggerFactory.GetLogger(typeof (AbstractReceiverSocket));
+            _serializer = serializer;
+            _addressBinder = addressBinder;
             _context = context;
             _socket = socket;
 
@@ -32,13 +34,13 @@ namespace EasyZMq.Sockets
             ConfigureSocket(socket);
         }
 
-        public Uri Uri => _configuration.AddressBinder.Uri;
+        public Uri Uri => _addressBinder.Uri;
 
         public void Start()
         {
             if (_disposedValue) throw new ObjectDisposedException("EasyZMqReceiverSocket");
 
-            _configuration.AddressBinder.ConnectOrBindAddress(_socket);
+            _addressBinder.ConnectOrBindAddress(_socket);
 
             _poller.PollTillCancelledNonBlocking();
         }
@@ -108,7 +110,7 @@ namespace EasyZMq.Sockets
         {
             try
             {
-                dynamic message = _configuration.Serializer.Deserialize(bytes);
+                dynamic message = _serializer.Deserialize(bytes);
                 OnMessageReceived(message);
             }
             catch (Exception ex)

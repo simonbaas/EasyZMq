@@ -16,9 +16,9 @@ namespace EasyZMq.Infrastructure
         private Task _task;
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
-        public MessageDispatcher(EasyZMqConfiguration configuration)
+        public MessageDispatcher(ILoggerFactory loggerFactory)
         {
-            _logger = configuration.LoggerFactory.GetLogger(typeof(MessageDispatcher));
+            _logger = loggerFactory.GetLogger(typeof(MessageDispatcher));
             _task = StartDispatcher();
         }
 
