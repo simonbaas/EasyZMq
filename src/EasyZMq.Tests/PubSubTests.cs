@@ -11,6 +11,8 @@ namespace EasyZMq.Tests
     [TestFixture(Author = "Simon Baas", Description = "Publish/Subscribe Tests")]
     public class PubSubTests
     {
+        private static readonly TimeSpan WaitTimeout = TimeSpan.FromSeconds(10);
+
         [TestCase("", Description = "Empty topic")]
         [TestCase("A", Description = "Non-empty topic")]
         public void One_publisher_one_subscriber(string topic)
@@ -31,7 +33,7 @@ namespace EasyZMq.Tests
 
                     publisher.PublishMessage(topic, message);
 
-                    tcs.Task.Wait();
+                    tcs.Task.Wait(WaitTimeout);
                     Assert.AreEqual(message, tcs.Task.Result);
                 }
             }
@@ -63,7 +65,7 @@ namespace EasyZMq.Tests
 
                         publisher.PublishMessage(topic, message);
 
-                        Task.WaitAll(tcs1.Task, tcs2.Task);
+                        Task.WaitAll(new Task[] { tcs1.Task, tcs2.Task }, WaitTimeout);
 
                         Assert.AreEqual(message, tcs1.Task.Result);
                         Assert.AreEqual(message, tcs2.Task.Result);
@@ -102,7 +104,7 @@ namespace EasyZMq.Tests
                         publisher.PublishMessage(topic1, message1);
                         publisher.PublishMessage(topic2, message2);
 
-                        Task.WaitAll(tcs1.Task, tcs2.Task);
+                        Task.WaitAll(new Task[] { tcs1.Task, tcs2.Task }, WaitTimeout);
 
                         Assert.AreEqual(message1, tcs1.Task.Result);
                         Assert.AreEqual(message2, tcs2.Task.Result);
@@ -146,7 +148,7 @@ namespace EasyZMq.Tests
                     publisher.PublishMessage(topic, message1);
                     publisher.PublishMessage(topic, message2);
 
-                    Task.WaitAll(tcs1.Task, tcs2.Task);
+                    Task.WaitAll(new Task[] { tcs1.Task, tcs2.Task }, WaitTimeout);
 
                     var result1 = tcs1.Task.Result;
                     var result2 = tcs2.Task.Result;
