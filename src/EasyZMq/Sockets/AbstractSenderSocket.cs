@@ -4,13 +4,13 @@ using NetMQ;
 
 namespace EasyZMq.Sockets
 {
-    public abstract class EasyZMqSenderSocket : IEasyZMqSenderSocket
+    public abstract class AbstractSenderSocket : ISenderSocket
     {
         private readonly EasyZMqConfiguration _configuration;
         private readonly NetMQContext _context;
         private readonly NetMQSocket _socket;
 
-        protected EasyZMqSenderSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
+        protected AbstractSenderSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
         {
             _configuration = configuration;
             _context = context;

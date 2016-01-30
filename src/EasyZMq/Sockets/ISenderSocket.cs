@@ -1,6 +1,6 @@
 namespace EasyZMq.Sockets
 {
-    public interface IEasyZMqSenderSocket : IEasyZMqSocket
+    public interface ISenderSocket : ISocket
     {
         void SendMessage<T>(string topic, T message);
     }

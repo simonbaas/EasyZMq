@@ -162,12 +162,12 @@ namespace EasyZMq.Tests
             }
         }
 
-        private static IEasyZMqPublisherSocket CreatePublisher()
+        private static IPublisherSocket CreatePublisher()
         {
             return EasyZMqConfigure.BindRandomPort("tcp://localhost").AsPublisher();
         }
 
-        private static IEasyZMqSubscriberSocket CreateSubscriber(int port, string topic)
+        private static ISubscriberSocket CreateSubscriber(int port, string topic)
         {
             return EasyZMqConfigure.ConnectTo($"tcp://localhost:{port}").AsSubscriber(topic);
         }

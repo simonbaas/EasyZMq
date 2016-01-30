@@ -7,7 +7,7 @@ using NetMQ.Monitoring;
 
 namespace EasyZMq.Sockets
 {
-    public abstract class EasyZMqReceiverSocket : IEasyZMqReceiverSocket, IMonitorConnection
+    public abstract class AbstractReceiverSocket : IReceiverSocket, IMonitorConnection
     {
         private readonly EasyZMqConfiguration _configuration;
         private readonly ILogger _logger;
@@ -20,10 +20,10 @@ namespace EasyZMq.Sockets
         public event Action Disconnected;
         public event Action ConnectRetried;
 
-        protected EasyZMqReceiverSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
+        protected AbstractReceiverSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
         {
             _configuration = configuration;
-            _logger = configuration.LoggerFactory.GetLogger(typeof (EasyZMqReceiverSocket));
+            _logger = configuration.LoggerFactory.GetLogger(typeof (AbstractReceiverSocket));
             _context = context;
             _socket = socket;
 

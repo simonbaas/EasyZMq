@@ -2,7 +2,7 @@ using System;
 
 namespace EasyZMq.Sockets
 {
-    public interface IEasyZMqSocket : IDisposable
+    public interface ISocket : IDisposable
     {
         Uri Uri { get; }
     }

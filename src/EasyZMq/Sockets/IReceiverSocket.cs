@@ -1,6 +1,6 @@
 namespace EasyZMq.Sockets
 {
-    public interface IEasyZMqReceiverSocket : IEasyZMqSocket
+    public interface IReceiverSocket : ISocket
     {
         void Start();
         void OnMessageReceived<T>(T message);

@@ -5,11 +5,11 @@ using NetMQ;
 
 namespace EasyZMq.Sockets.Subscriber
 {
-    public class EasyZMqSubscriberSocket : EasyZMqReceiverSocket, IEasyZMqSubscriberSocket
+    public class SubscriberSocket : AbstractReceiverSocket, ISubscriberSocket
     {
         private IMessageDispatcher _dispatcher;
 
-        public EasyZMqSubscriberSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
+        public SubscriberSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
             : base(configuration, context, socket)
         {
             _dispatcher = new MessageDispatcher(configuration);

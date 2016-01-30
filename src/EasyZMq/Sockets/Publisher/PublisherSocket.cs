@@ -3,9 +3,9 @@ using NetMQ;
 
 namespace EasyZMq.Sockets.Publisher
 {
-    public class EasyZMqPublisherSocket : EasyZMqSenderSocket, IEasyZMqPublisherSocket
+    public class PublisherSocket : AbstractSenderSocket, IPublisherSocket
     {
-        public EasyZMqPublisherSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
+        public PublisherSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
             : base(configuration, context, socket)
         { }
 

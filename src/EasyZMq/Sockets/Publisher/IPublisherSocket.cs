@@ -2,7 +2,7 @@ using System;
 
 namespace EasyZMq.Sockets.Publisher
 {
-    public interface IEasyZMqPublisherSocket : IDisposable
+    public interface IPublisherSocket : IDisposable
     {
         Uri Uri { get; }
         void PublishMessage<T>(string topic, T message);
