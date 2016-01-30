@@ -64,7 +64,7 @@ namespace EasyZMq.Infrastructure
             }
             catch (Exception ex)
             {
-                _logger.Error($"Subscriber {subscription.GetType()} threw an unhandled exception", ex);
+                _logger.Error($"Subscriber for message type {message.GetType()} threw an unhandled exception", ex);
             }
         }
 
