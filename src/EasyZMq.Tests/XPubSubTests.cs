@@ -10,8 +10,8 @@ using NUnit.Framework;
 
 namespace EasyZMq.Tests
 {
-    [TestFixture(Author = "Simon Baas", Description = "Intermediary Socket Tests")]
-    public class IntermediarySocketTests
+    [TestFixture(Author = "Simon Baas", Description = "XPub/XSub Tests using Intermediary")]
+    public class XPubSubTests
     {
         private static readonly TimeSpan WaitTimeout = TimeSpan.FromSeconds(10);
 

@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PubSubTests.cs" />
-    <Compile Include="IntermediarySocketTests.cs" />
+    <Compile Include="XPubSubTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasyZMq\EasyZMq.csproj">
