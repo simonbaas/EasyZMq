@@ -12,7 +12,7 @@ namespace EasyZMq.Sockets.Publisher
             var context = NetMQContext.Create();
             var socket = context.CreatePublisherSocket();
 
-            return new PublisherSocket(serializer, addressBinder, context, socket);
+            return new PublisherSocket(serializer, addressBinder, socket);
         }
     }
 }

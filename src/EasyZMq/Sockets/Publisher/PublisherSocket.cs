@@ -6,8 +6,8 @@ namespace EasyZMq.Sockets.Publisher
 {
     public class PublisherSocket : AbstractSenderSocket, IPublisherSocket
     {
-        public PublisherSocket(ISerializer serializer, IAddressBinder addressBinder, NetMQContext context, NetMQSocket socket)
-            : base(serializer, addressBinder, context, socket)
+        public PublisherSocket(ISerializer serializer, IAddressBinder addressBinder, NetMQSocket socket)
+            : base(serializer, addressBinder, socket)
         { }
 
         public void PublishMessage<T>(T message)

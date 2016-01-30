@@ -1,5 +1,4 @@
 ﻿using System;
-using EasyZMq.Configuration;
 using EasyZMq.Infrastructure;
 using EasyZMq.Serialization;
 using NetMQ;
@@ -10,16 +9,13 @@ namespace EasyZMq.Sockets
     {
         private readonly ISerializer _serializer;
         private readonly IAddressBinder _addressBinder;
-        private readonly NetMQContext _context;
-        private readonly NetMQSocket _socket;
+        private NetMQSocket _socket;
 
-        protected AbstractSenderSocket(ISerializer serializer, IAddressBinder addressBinder, NetMQContext context, NetMQSocket socket)
+        protected AbstractSenderSocket(ISerializer serializer, IAddressBinder addressBinder, NetMQSocket socket)
         {
             _serializer = serializer;
             _addressBinder = addressBinder;
-            _context = context;
             _socket = socket;
-
             _addressBinder.ConnectOrBindAddress(socket);
         }
 
@@ -46,7 +42,7 @@ namespace EasyZMq.Sockets
                 if (disposing)
                 {
                     _socket.Dispose();
-                    _context.Dispose();
+                    _socket = null;
                 }
 
                 _disposedValue = true;
