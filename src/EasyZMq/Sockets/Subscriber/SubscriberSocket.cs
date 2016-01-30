@@ -8,17 +8,18 @@ namespace EasyZMq.Sockets.Subscriber
 {
     public class SubscriberSocket : AbstractReceiverSocket, ISubscriberSocket
     {
-        private IMessageDispatcher _dispatcher;
+        private IMessageDispatcher _messageDispatcher;
 
-        public SubscriberSocket(ISerializer serializer, IAddressBinder addressBinder, ILoggerFactory loggerFactory, NetMQContext context, NetMQSocket socket)
+        public SubscriberSocket(ISerializer serializer, IAddressBinder addressBinder, ILoggerFactory loggerFactory, IMessageDispatcher messageDispatcher,
+            NetMQContext context, NetMQSocket socket)
             : base(serializer, addressBinder, loggerFactory, context, socket)
         {
-            _dispatcher = new MessageDispatcher(loggerFactory);
+            _messageDispatcher = messageDispatcher;
         }
 
         public IDisposable On<T>(Action<T> action)
         {
-            var subscription = _dispatcher.Subscribe<T>();
+            var subscription = _messageDispatcher.Subscribe<T>();
 
             Action<dynamic> handler = message =>
             {
@@ -32,7 +33,7 @@ namespace EasyZMq.Sockets.Subscriber
 
         public override void OnMessageReceived<T>(T message)
         {
-            _dispatcher.Dispatch(message);
+            _messageDispatcher.Dispatch(message);
         }
 
         private bool _disposedValue;
@@ -44,10 +45,10 @@ namespace EasyZMq.Sockets.Subscriber
 
                 if (disposing)
                 {
-                    if (_dispatcher != null)
+                    if (_messageDispatcher != null)
                     {
-                        _dispatcher.Dispose();
-                        _dispatcher = null;
+                        _messageDispatcher.Dispose();
+                        _messageDispatcher = null;
                     }
                 }
 
