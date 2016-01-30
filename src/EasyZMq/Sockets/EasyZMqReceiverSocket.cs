@@ -1,5 +1,6 @@
 using System;
 using EasyZMq.Configuration;
+using EasyZMq.Infrastructure;
 using EasyZMq.Logging;
 using NetMQ;
 using NetMQ.Monitoring;

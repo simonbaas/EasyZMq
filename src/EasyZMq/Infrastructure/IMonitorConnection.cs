@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EasyZMq.Sockets
+namespace EasyZMq.Infrastructure
 {
     public interface IMonitorConnection
     {
