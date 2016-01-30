@@ -1,5 +1,4 @@
 ﻿using EasyZMq.Configuration;
-using EasyZMq.Infrastructure;
 using NetMQ;
 
 namespace EasyZMq.Sockets.Subscriber
@@ -8,10 +7,10 @@ namespace EasyZMq.Sockets.Subscriber
     {
         public static ISubscriberSocket AsSubscriber(this EasyZMqConfigurer configurer, string topic)
         {
-            var serializer = configurer.Configuration.Serializer;
-            var addressBinder = configurer.Configuration.AddressBinder;
-            var loggerFactory = configurer.Configuration.LoggerFactory;
-            var messageDispatcher = new MessageDispatcher(loggerFactory);
+            var serializer = configurer.Serializer;
+            var addressBinder = configurer.AddressBinder;
+            var loggerFactory = configurer.LoggerFactory;
+            var messageDispatcher = configurer.MessageDispatcher;
 
             var context = NetMQContext.Create();
             var socket = context.CreateSubscriberSocket();

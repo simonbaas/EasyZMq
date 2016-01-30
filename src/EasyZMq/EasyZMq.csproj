@@ -53,9 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\EasyZMqConfiguration.cs" />
     <Compile Include="Configuration\EasyZMqConfigure.cs" />
     <Compile Include="Configuration\EasyZMqConfigurer.cs" />
+    <Compile Include="Infrastructure\SuperSimpleIoC.cs" />
     <Compile Include="Sockets\Publisher\PublisherSocketConfigurerExtension.cs" />
     <Compile Include="Sockets\Subscriber\SubscriberSocketConfigurerExtension.cs" />
     <Compile Include="Infrastructure\BindRandomPortAddressBinder.cs" />
