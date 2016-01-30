@@ -32,7 +32,7 @@ namespace EasyZMq.Configuration
 
         private void SetDefaultSerializer()
         {
-            Use(new EasyZMqJsonSerializer());
+            Use(new JsonSerializer());
         }
 
         private void SetDefaultLogger()
