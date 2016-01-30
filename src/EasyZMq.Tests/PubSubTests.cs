@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace EasyZMq.Tests
 {
-    [TestFixture(Author = "Simon Baas", Description = "Publish/Subscribe Tests")]
+    [TestFixture(Author = "Simon Baas", Description = "Publish/Subscribe Sockets Tests")]
     public class PubSubTests
     {
         private static readonly TimeSpan WaitTimeout = TimeSpan.FromSeconds(10);
