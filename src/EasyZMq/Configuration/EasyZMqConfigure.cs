@@ -12,7 +12,7 @@ namespace EasyZMq.Configuration
             var uri = new Uri(address);
             var addressBinder = new ConnectAddressBinder(uri);
 
-            return new EasyZMqConfigurer(addressBinder);
+            return CreateConfigurer(addressBinder);
         }
 
         public static EasyZMqConfigurer BindTo(string address)
@@ -22,7 +22,7 @@ namespace EasyZMq.Configuration
             var uri = new Uri(address);
             var addressBinder = new BindAddressBinder(uri);
 
-            return new EasyZMqConfigurer(addressBinder);
+            return CreateConfigurer(addressBinder);
         }
 
         public static EasyZMqConfigurer BindRandomPort(string address)
@@ -31,7 +31,14 @@ namespace EasyZMq.Configuration
 
             var addressBinder = new BindRandomPortAddressBinder(address);
 
-            return new EasyZMqConfigurer(addressBinder);
+            return CreateConfigurer(addressBinder);
+        }
+
+        private static EasyZMqConfigurer CreateConfigurer(IAddressBinder addressBinder)
+        {
+            var configurer = new EasyZMqConfigurer();
+            configurer.Use(addressBinder);
+            return configurer;
         }
     }
 }

@@ -9,11 +9,10 @@ namespace EasyZMq.Configuration
     {
         private readonly SuperSimpleIoC _ioC;
 
-        public EasyZMqConfigurer(IAddressBinder addressBinder)
+        public EasyZMqConfigurer()
         {
             _ioC = new SuperSimpleIoC();
 
-            RegisterAddressBinder(addressBinder);
             RegisterDefaultLogger();
             RegisterDefaultSerializer();
             RegisterDefaultMessageDispatcher();
@@ -38,8 +37,10 @@ namespace EasyZMq.Configuration
             _ioC.Register(() => loggerFactory);
         }
 
-        private void RegisterAddressBinder(IAddressBinder addressBinder)
+        public void Use(IAddressBinder addressBinder)
         {
+            if (addressBinder == null) throw new ArgumentNullException(nameof(addressBinder));
+
             _ioC.Register(() => addressBinder);
         }
 
