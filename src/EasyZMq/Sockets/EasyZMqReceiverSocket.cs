@@ -23,7 +23,7 @@ namespace EasyZMq.Sockets
         protected EasyZMqReceiverSocket(EasyZMqConfiguration configuration, NetMQContext context, NetMQSocket socket)
         {
             _configuration = configuration;
-            _logger = configuration.EasyZMqLoggerFactory.GetLogger(typeof (EasyZMqReceiverSocket));
+            _logger = configuration.LoggerFactory.GetLogger(typeof (EasyZMqReceiverSocket));
             _context = context;
             _socket = socket;
 

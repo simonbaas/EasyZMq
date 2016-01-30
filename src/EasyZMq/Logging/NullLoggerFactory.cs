@@ -2,11 +2,11 @@
 
 namespace EasyZMq.Logging
 {
-    public class EasyZMqNullEasyZMqLoggerFactory : AbstractEasyZMqLoggerFactory
+    public class NullLoggerFactory : AbstractLoggerFactory
     {
         public override ILogger GetLogger(Type type)
         {
-            return new EasyZMqNullLogger();
+            return new NullLogger();
         }
     }
 }

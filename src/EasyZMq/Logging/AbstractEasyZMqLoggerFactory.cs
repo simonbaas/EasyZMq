@@ -2,7 +2,7 @@
 
 namespace EasyZMq.Logging
 {
-    public abstract class AbstractEasyZMqLoggerFactory : IEasyZMqLoggerFactory
+    public abstract class AbstractLoggerFactory : ILoggerFactory
     {
         public abstract ILogger GetLogger(Type type);
 

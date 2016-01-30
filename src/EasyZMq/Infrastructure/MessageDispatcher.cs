@@ -18,7 +18,7 @@ namespace EasyZMq.Infrastructure
 
         public MessageDispatcher(EasyZMqConfiguration configuration)
         {
-            _logger = configuration.EasyZMqLoggerFactory.GetLogger(typeof(MessageDispatcher));
+            _logger = configuration.LoggerFactory.GetLogger(typeof(MessageDispatcher));
             _task = StartDispatcher();
         }
 

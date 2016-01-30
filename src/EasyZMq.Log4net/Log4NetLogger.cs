@@ -4,11 +4,11 @@ using log4net;
 
 namespace EasyZMq.Log4net
 {
-    public class EasyZMqLog4NetLogger : ILogger
+    public class Log4NetLogger : ILogger
     {
         private readonly ILog _log;
 
-        public EasyZMqLog4NetLogger(Type type)
+        public Log4NetLogger(Type type)
         {
             _log = LogManager.GetLogger(type);
         }

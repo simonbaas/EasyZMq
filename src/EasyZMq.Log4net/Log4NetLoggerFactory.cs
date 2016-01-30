@@ -3,11 +3,11 @@ using EasyZMq.Logging;
 
 namespace EasyZMq.Log4net
 {
-    public class EasyZMqLog4NetLoggerFactory : AbstractEasyZMqLoggerFactory
+    public class Log4NetLoggerFactory : AbstractLoggerFactory
     {
         public override ILogger GetLogger(Type type)
         {
-            return new EasyZMqLog4NetLogger(type);
+            return new Log4NetLogger(type);
         }
     }
 }

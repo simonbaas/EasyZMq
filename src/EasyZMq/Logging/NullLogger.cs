@@ -2,7 +2,7 @@
 
 namespace EasyZMq.Logging
 {
-    public class EasyZMqNullLogger : ILogger
+    public class NullLogger : ILogger
     {
         public void Debug(string message)
         {

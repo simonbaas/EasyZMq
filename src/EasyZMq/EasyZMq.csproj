@@ -68,10 +68,10 @@
     <Compile Include="Infrastructure\MessageDispatcher.cs" />
     <Compile Include="Infrastructure\Subscription.cs" />
     <Compile Include="Logging\AbstractEasyZMqLoggerFactory.cs" />
-    <Compile Include="Logging\EasyZMqNullLogger.cs" />
-    <Compile Include="Logging\EasyZMqNullLoggerFactory.cs" />
+    <Compile Include="Logging\NullLogger.cs" />
+    <Compile Include="Logging\NullLoggerFactory.cs" />
     <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Logging\IEasyZMqLoggerFactory.cs" />
+    <Compile Include="Logging\ILoggerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\EasyZMqJsonSerializer.cs" />
     <Compile Include="Serialization\ISerializer.cs" />

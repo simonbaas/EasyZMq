@@ -23,11 +23,11 @@ namespace EasyZMq.Configuration
             Configuration.Serializer = serializer;
         }
 
-        public void Use(IEasyZMqLoggerFactory easyZMqLoggerFactory)
+        public void Use(ILoggerFactory loggerFactory)
         {
-            if (easyZMqLoggerFactory == null) throw new ArgumentNullException(nameof(easyZMqLoggerFactory));
+            if (loggerFactory == null) throw new ArgumentNullException(nameof(loggerFactory));
 
-            Configuration.EasyZMqLoggerFactory = easyZMqLoggerFactory;
+            Configuration.LoggerFactory = loggerFactory;
         }
 
         private void SetDefaultSerializer()
@@ -37,7 +37,7 @@ namespace EasyZMq.Configuration
 
         private void SetDefaultLogger()
         {
-            Use(new EasyZMqNullEasyZMqLoggerFactory());
+            Use(new NullLoggerFactory());
         }
     }
 }

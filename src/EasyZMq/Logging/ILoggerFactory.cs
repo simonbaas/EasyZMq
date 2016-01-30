@@ -2,7 +2,7 @@
 
 namespace EasyZMq.Logging
 {
-    public interface IEasyZMqLoggerFactory
+    public interface ILoggerFactory
     {
         ILogger GetLogger(Type type);
         ILogger GetLogger<T>();

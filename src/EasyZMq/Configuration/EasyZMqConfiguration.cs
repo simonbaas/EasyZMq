@@ -8,6 +8,6 @@ namespace EasyZMq.Configuration
     {
         public IAddressBinder AddressBinder { get; set; }
         public ISerializer Serializer { get; set; }
-        public IEasyZMqLoggerFactory EasyZMqLoggerFactory { get; set; }
+        public ILoggerFactory LoggerFactory { get; set; }
     }
 }
