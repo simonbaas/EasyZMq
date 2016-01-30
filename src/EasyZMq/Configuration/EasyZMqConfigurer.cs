@@ -12,10 +12,6 @@ namespace EasyZMq.Configuration
         public EasyZMqConfigurer()
         {
             _ioC = new SuperSimpleIoC();
-
-            RegisterDefaultLogger();
-            RegisterDefaultSerializer();
-            RegisterDefaultMessageDispatcher();
         }
 
         public IAddressBinder AddressBinder => _ioC.Resolve<IAddressBinder>();
@@ -44,19 +40,11 @@ namespace EasyZMq.Configuration
             _ioC.Register(() => addressBinder);
         }
 
-        private void RegisterDefaultSerializer()
+        public void Use(IMessageDispatcher messageDispatcher)
         {
-            Use(new JsonSerializer());
-        }
+            if (messageDispatcher == null) throw new ArgumentNullException(nameof(messageDispatcher));
 
-        private void RegisterDefaultLogger()
-        {
-            Use(new NullLoggerFactory());
-        }
-
-        private void RegisterDefaultMessageDispatcher()
-        {
-            _ioC.Register<IMessageDispatcher, MessageDispatcher>();
+            _ioC.Register(() => messageDispatcher);
         }
     }
 }
