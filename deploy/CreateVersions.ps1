@@ -22,6 +22,6 @@ Write-Host "##teamcity[setParameter name='system.MajorVersion' value='$majorVers
 Write-Host "##teamcity[setParameter name='system.MinorVersion' value='$minorVersion']"
 Write-Host "##teamcity[setParameter name='system.PatchVersion' value='$patchVersion']"
 Write-Host "##teamcity[setParameter name='system.CommitCount' value='$commitCount']"
-Write-Host "##teamcity[setParameter name='system.AssemblyVersion' value='$version.$commitCount']"
-Write-Host "##teamcity[buildNumber '$version-$branch.$commitCount']"
+Write-Host "##teamcity[setParameter name='system.AssemblyVersion' value='$version.%build.counter%']"
+Write-Host "##teamcity[buildNumber '$version-$branch.%build.counter%']"
 Write-Host "##teamcity[setParameter name='system.ShortHash' value='$shorthash']"
