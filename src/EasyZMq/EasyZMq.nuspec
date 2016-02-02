@@ -12,5 +12,8 @@
     <description>A library to provide an easy api when working with ZeroMQ (ØMQ) on .NET</description>
     <copyright>Copyright 2016</copyright>
     <tags>easyzmq zmq ømq messaging queue</tags>
+	<dependencies>
+      <dependency id="Newtonsoft.Json" version="7.0.1" />
+    </dependencies>
   </metadata>
 </package>
