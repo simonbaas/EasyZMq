@@ -13,9 +13,9 @@ $version = [string]::Join('.', @(
 	$patchVersion
 ))
 
-$branch = '%build.branch.name%'.Split('/')[-1]
+$branch = $env.build_branch_name.Split('/')[-1]
 
-$hash = '%build.vcs.number%'
+$hash = $env.build_vcs_number
 $shorthash = $hash.substring(0,7)
 
 Write-Host "##teamcity[setParameter name='system.MajorVersion' value='$majorVersion']"
