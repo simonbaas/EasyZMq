@@ -2,7 +2,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using EasyZMq.Configuration;
 using EasyZMq.Logging;
 
 namespace EasyZMq.Infrastructure
@@ -40,10 +39,10 @@ namespace EasyZMq.Infrastructure
             {
                 try
                 {
-                    foreach (var message in _queue.GetConsumingEnumerable(_cts.Token))
-                    {
-                        DispatchToSubscriber(message);
-                    }
+                    var options = new ParallelOptions { MaxDegreeOfParallelism = 1, CancellationToken = _cts.Token };
+                    var partioner = Partitioner.Create(_queue.GetConsumingEnumerable(_cts.Token), EnumerablePartitionerOptions.NoBuffering);
+
+                    Parallel.ForEach(partioner, options, message => DispatchToSubscriber(message));
                 }
                 catch (OperationCanceledException) { }
             }, _cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
