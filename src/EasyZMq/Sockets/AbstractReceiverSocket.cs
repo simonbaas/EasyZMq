@@ -6,7 +6,7 @@ using NetMQ;
 
 namespace EasyZMq.Sockets
 {
-    public abstract class AbstractReceiverSocket : IReceiverSocket, IMonitorConnection
+    internal abstract class AbstractReceiverSocket : IReceiverSocket, IMonitorConnection
     {
         private readonly ILogger _logger;
         private readonly ISerializer _serializer;

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace EasyZMq.Infrastructure
 {
-    public class SuperSimpleIoC
+    internal class SuperSimpleIoC
     {
         private readonly Dictionary<Type, RegisteredObject> _configItems = new Dictionary<Type, RegisteredObject>();
 
@@ -61,7 +61,7 @@ namespace EasyZMq.Infrastructure
         }
     }
 
-    public class RegisteredObject
+    internal class RegisteredObject
     {
         public Type TypeToResolve { get; set; }
         public Type ConcreteType { get; set; }

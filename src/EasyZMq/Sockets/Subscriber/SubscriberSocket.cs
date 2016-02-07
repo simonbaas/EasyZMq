@@ -6,7 +6,7 @@ using NetMQ;
 
 namespace EasyZMq.Sockets.Subscriber
 {
-    public class SubscriberSocket : AbstractReceiverSocket, ISubscriberSocket
+    internal class SubscriberSocket : AbstractReceiverSocket, ISubscriberSocket
     {
         private IMessageDispatcher _messageDispatcher;
 

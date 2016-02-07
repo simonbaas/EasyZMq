@@ -5,7 +5,7 @@ using NetMQ;
 
 namespace EasyZMq.Sockets
 {
-    public abstract class AbstractSenderSocket : ISenderSocket
+    internal abstract class AbstractSenderSocket : ISenderSocket
     {
         private readonly ISerializer _serializer;
         private readonly IAddressBinder _addressBinder;

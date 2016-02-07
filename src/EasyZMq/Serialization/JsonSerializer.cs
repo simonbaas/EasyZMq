@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace EasyZMq.Serialization
 {
-    public class JsonSerializer : ISerializer
+    internal class JsonSerializer : ISerializer
     {
         private readonly Encoding _textEncoding = Encoding.UTF8;
         private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };

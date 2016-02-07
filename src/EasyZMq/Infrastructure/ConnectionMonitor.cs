@@ -5,7 +5,7 @@ using NetMQ.Monitoring;
 
 namespace EasyZMq.Infrastructure
 {
-    public class ConnectionMonitor : IConnectionMonitor
+    internal class ConnectionMonitor : IConnectionMonitor
     {
         public event Action Connected;
         public event Action Disconnected;

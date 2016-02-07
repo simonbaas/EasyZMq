@@ -4,7 +4,7 @@ using NetMQ;
 
 namespace EasyZMq.Sockets.Publisher
 {
-    public class PublisherSocket : AbstractSenderSocket, IPublisherSocket
+    internal class PublisherSocket : AbstractSenderSocket, IPublisherSocket
     {
         public PublisherSocket(ISerializer serializer, IAddressBinder addressBinder, NetMQSocket socket)
             : base(serializer, addressBinder, socket)

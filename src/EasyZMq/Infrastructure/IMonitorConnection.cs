@@ -2,7 +2,7 @@
 
 namespace EasyZMq.Infrastructure
 {
-    public interface IMonitorConnection
+    internal interface IMonitorConnection
     {
         event Action Connected;
         event Action Disconnected;

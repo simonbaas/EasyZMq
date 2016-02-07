@@ -2,7 +2,7 @@
 
 namespace EasyZMq.Logging
 {
-    public class NullLoggerFactory : AbstractLoggerFactory
+    internal class NullLoggerFactory : AbstractLoggerFactory
     {
         public override ILogger GetLogger(Type type)
         {

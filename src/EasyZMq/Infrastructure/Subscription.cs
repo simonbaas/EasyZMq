@@ -2,7 +2,7 @@ using System;
 
 namespace EasyZMq.Infrastructure
 {
-    public class Subscription
+    internal class Subscription
     {
         public event Action<dynamic> Received;
 

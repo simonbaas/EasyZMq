@@ -2,7 +2,7 @@
 
 namespace EasyZMq.Infrastructure
 {
-    public class DisposableAction : IDisposable
+    internal class DisposableAction : IDisposable
     {
         private readonly Action _action;
 

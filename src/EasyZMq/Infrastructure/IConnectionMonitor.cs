@@ -2,7 +2,7 @@
 
 namespace EasyZMq.Infrastructure
 {
-    public interface IConnectionMonitor : IMonitorConnection, IDisposable
+    internal interface IConnectionMonitor : IMonitorConnection, IDisposable
     {
 
     }

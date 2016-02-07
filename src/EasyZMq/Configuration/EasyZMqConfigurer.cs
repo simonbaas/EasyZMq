@@ -14,10 +14,10 @@ namespace EasyZMq.Configuration
             _ioC = new SuperSimpleIoC();
         }
 
-        public IAddressBinder AddressBinder => _ioC.Resolve<IAddressBinder>();
-        public ISerializer Serializer => _ioC.Resolve<ISerializer>();
-        public ILoggerFactory LoggerFactory => _ioC.Resolve<ILoggerFactory>();
-        public IMessageDispatcher MessageDispatcher => _ioC.Resolve<IMessageDispatcher>();
+        internal ISerializer Serializer => _ioC.Resolve<ISerializer>();
+        internal ILoggerFactory LoggerFactory => _ioC.Resolve<ILoggerFactory>();
+        internal IAddressBinder AddressBinder => _ioC.Resolve<IAddressBinder>();
+        internal IMessageDispatcher MessageDispatcher => _ioC.Resolve<IMessageDispatcher>();
 
         public void Use(ISerializer serializer)
         {
@@ -33,14 +33,14 @@ namespace EasyZMq.Configuration
             _ioC.Register(() => loggerFactory);
         }
 
-        public void Use(IAddressBinder addressBinder)
+        internal void Use(IAddressBinder addressBinder)
         {
             if (addressBinder == null) throw new ArgumentNullException(nameof(addressBinder));
 
             _ioC.Register(() => addressBinder);
         }
 
-        public void Use(IMessageDispatcher messageDispatcher)
+        internal void Use(IMessageDispatcher messageDispatcher)
         {
             if (messageDispatcher == null) throw new ArgumentNullException(nameof(messageDispatcher));
 

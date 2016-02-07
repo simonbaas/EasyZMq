@@ -3,7 +3,7 @@ using NetMQ;
 
 namespace EasyZMq.Infrastructure
 {
-    public class BindAddressBinder : IAddressBinder
+    internal class BindAddressBinder : IAddressBinder
     {
         public Uri Uri { get; }
 

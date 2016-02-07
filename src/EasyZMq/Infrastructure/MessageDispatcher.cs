@@ -6,7 +6,7 @@ using EasyZMq.Logging;
 
 namespace EasyZMq.Infrastructure
 {
-    public class MessageDispatcher : IMessageDispatcher
+    internal class MessageDispatcher : IMessageDispatcher
     {
         private readonly ConcurrentDictionary<Type, Subscription> _subscriptions = new ConcurrentDictionary<Type, Subscription>();
         private readonly BlockingCollection<dynamic> _queue = new BlockingCollection<dynamic>();

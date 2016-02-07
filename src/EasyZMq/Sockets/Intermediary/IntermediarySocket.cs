@@ -5,7 +5,7 @@ using NetMQ.Sockets;
 
 namespace EasyZMq.Sockets.Intermediary
 {
-    public class IntermediarySocket : IIntermediarySocket
+    internal class IntermediarySocket : IIntermediarySocket
     {
         private readonly IAddressBinder _frontendAddressBinder;
         private readonly IAddressBinder _backendAddressBinder;
