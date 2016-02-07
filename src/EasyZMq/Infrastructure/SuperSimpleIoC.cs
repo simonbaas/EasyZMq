@@ -10,11 +10,12 @@ namespace EasyZMq.Infrastructure
 
         public void Register<T, TU>() where TU : T
         {
-            if (_configItems.ContainsKey(typeof(T))) return;
+            var typeToResolve = typeof (T);
+            if (_configItems.ContainsKey(typeToResolve)) _configItems.Remove(typeToResolve);
 
             var configItem = new RegisteredObject
             {
-                TypeToResolve = typeof(T),
+                TypeToResolve = typeToResolve,
                 ConcreteType = typeof(TU)
             };
 
@@ -23,12 +24,13 @@ namespace EasyZMq.Infrastructure
 
         public void Register<T>(Func<T> createInstance)
         {
-            if (_configItems.ContainsKey(typeof(T))) return;
+            var typeToResolve = typeof(T);
+            if (_configItems.ContainsKey(typeToResolve)) _configItems.Remove(typeToResolve);
 
             var instance = createInstance();
             var configItem = new RegisteredObject
             {
-                TypeToResolve = typeof(T),
+                TypeToResolve = typeToResolve,
                 ConcreteType = instance.GetType(),
                 Instance = instance
             };
@@ -59,12 +61,12 @@ namespace EasyZMq.Infrastructure
             var constructorInfo = concreteType.GetConstructors().First();
             return constructorInfo.GetParameters().Select(parameterInfo => Resolve(parameterInfo.ParameterType));
         }
-    }
 
-    internal class RegisteredObject
-    {
-        public Type TypeToResolve { get; set; }
-        public Type ConcreteType { get; set; }
-        public dynamic Instance { get; set; }
+        private class RegisteredObject
+        {
+            public Type TypeToResolve { get; set; }
+            public Type ConcreteType { get; set; }
+            public dynamic Instance { get; set; }
+        }
     }
 }
