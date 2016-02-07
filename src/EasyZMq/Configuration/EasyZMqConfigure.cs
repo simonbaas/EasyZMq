@@ -1,7 +1,5 @@
 using System;
 using EasyZMq.Infrastructure;
-using EasyZMq.Logging;
-using EasyZMq.Serialization;
 
 namespace EasyZMq.Configuration
 {
@@ -40,22 +38,9 @@ namespace EasyZMq.Configuration
         {
             var configurer = new EasyZMqConfigurer();
 
-            RegisterDefaultImplementations(configurer);
             RegisterAddressBinder(configurer, addressBinder);
 
             return configurer;
-        }
-
-        private static void RegisterDefaultImplementations(EasyZMqConfigurer configurer)
-        {
-            var serializer = new JsonSerializer();
-            configurer.Use(serializer);
-
-            var loggerFactory = new NullLoggerFactory();
-            configurer.Use(loggerFactory);
-
-            var messageDispatcher = new MessageDispatcher(loggerFactory);
-            configurer.Use(messageDispatcher);
         }
 
         private static void RegisterAddressBinder(EasyZMqConfigurer configurer, IAddressBinder addressBinder)
