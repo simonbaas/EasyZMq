@@ -55,6 +55,8 @@
   <ItemGroup>
     <Compile Include="Configuration\EasyZMqConfigure.cs" />
     <Compile Include="Configuration\EasyZMqConfigurer.cs" />
+    <Compile Include="Infrastructure\ConnectionMonitor.cs" />
+    <Compile Include="Infrastructure\IConnectionMonitor.cs" />
     <Compile Include="Infrastructure\SuperSimpleIoC.cs" />
     <Compile Include="Sockets\Intermediary\IIntermediarySocket.cs" />
     <Compile Include="Sockets\Intermediary\IntermediarySocket.cs" />
