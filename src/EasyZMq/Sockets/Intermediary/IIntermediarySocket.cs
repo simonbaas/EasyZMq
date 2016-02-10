@@ -2,10 +2,9 @@
 
 namespace EasyZMq.Sockets.Intermediary
 {
-    public interface IIntermediarySocket : IDisposable
+    public interface IIntermediarySocket : IStartableSocket, IDisposable
     {
         Uri FrontendUri { get; }
         Uri BackendUri { get; }
-        void Start();
     }
 }

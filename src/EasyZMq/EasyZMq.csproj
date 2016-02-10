@@ -61,6 +61,7 @@
     <Compile Include="Sockets\Intermediary\IIntermediarySocket.cs" />
     <Compile Include="Sockets\Intermediary\IntermediarySocket.cs" />
     <Compile Include="Sockets\Intermediary\IntermediarySocketConfigurerExtension.cs" />
+    <Compile Include="Sockets\IStartableSocket.cs" />
     <Compile Include="Sockets\Publisher\PublisherSocketConfigurerExtension.cs" />
     <Compile Include="Sockets\Subscriber\SubscriberSocketConfigurerExtension.cs" />
     <Compile Include="Infrastructure\BindRandomPortAddressBinder.cs" />

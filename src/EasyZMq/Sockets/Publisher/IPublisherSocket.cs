@@ -1,10 +1,7 @@
-using System;
-
 namespace EasyZMq.Sockets.Publisher
 {
-    public interface IPublisherSocket : IDisposable
+    public interface IPublisherSocket : ISocket
     {
-        Uri Uri { get; }
         void PublishMessage<T>(string topic, T message);
         void PublishMessage<T>(T message);
     }

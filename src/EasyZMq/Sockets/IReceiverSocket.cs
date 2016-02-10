@@ -1,8 +1,7 @@
 namespace EasyZMq.Sockets
 {
-    internal interface IReceiverSocket : ISocket
+    internal interface IReceiverSocket : IStartableSocket, ISocket
     {
-        void Start();
         void OnMessageReceived<T>(T message);
     }
 }

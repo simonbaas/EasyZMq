@@ -1,11 +1,10 @@
+using EasyZMq.Infrastructure;
 using System;
 
 namespace EasyZMq.Sockets.Subscriber
 {
-    public interface ISubscriberSocket : IDisposable
+    public interface ISubscriberSocket : IStartableSocket, ISocket, IMonitorConnection
     {
-        Uri Uri { get; }
-        void Start();
         IDisposable On<T>(Action<T> action);
     }
 }
