@@ -29,7 +29,7 @@ namespace EasyZMq.Sockets
             _socket = socket;
 
             CreatePoller(socket);
-            CreateConnectionMonitor(loggerFactory, context, socket, _poller);
+            CreateConnectionMonitor(context, socket, _poller);
             ConfigureSocket(socket);
         }
 
@@ -51,12 +51,51 @@ namespace EasyZMq.Sockets
             _poller = new Poller(socket);
         }
 
-        private void CreateConnectionMonitor(ILoggerFactory loggerFactory, NetMQContext context, NetMQSocket socket, Poller poller)
+        private void CreateConnectionMonitor(NetMQContext context, NetMQSocket socket, Poller poller)
         {
-            _connectionMonitor = new ConnectionMonitor(loggerFactory, context, socket, poller);
-            _connectionMonitor.Connected += Connected;
-            _connectionMonitor.ConnectRetried += ConnectRetried;
-            _connectionMonitor.Disconnected += Disconnected;
+            _connectionMonitor = new ConnectionMonitor(context, socket, poller);
+            _connectionMonitor.Connected += ConnectionMonitor_Connected;
+            _connectionMonitor.ConnectRetried += ConnectionMonitor_ConnectRetried;
+            _connectionMonitor.Disconnected += ConnectionMonitor_Disconnected;
+        }
+
+        private void ConnectionMonitor_Connected()
+        {
+            try
+            {
+                var handler = Connected;
+                handler?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Event handler for Connected event threw an unhandled exception", ex);
+            }
+        }
+
+        private void ConnectionMonitor_ConnectRetried()
+        {
+            try
+            {
+                var handler = ConnectRetried;
+                handler?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Event handler for Disconnected event threw an unhandled exception", ex);
+            }
+        }
+
+        private void ConnectionMonitor_Disconnected()
+        {
+            try
+            {
+                var handler = Disconnected;
+                handler?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Event handler for ConnectRetried event threw an unhandled exception", ex);
+            }
         }
 
         private void ConfigureSocket(NetMQSocket socket)
@@ -126,9 +165,9 @@ namespace EasyZMq.Sockets
 
         private void DisposeConnectionMonitor()
         {
-            _connectionMonitor.Connected -= Connected;
-            _connectionMonitor.ConnectRetried -= ConnectRetried;
-            _connectionMonitor.Disconnected -= Disconnected;
+            _connectionMonitor.Connected -= ConnectionMonitor_Disconnected;
+            _connectionMonitor.ConnectRetried -= ConnectionMonitor_ConnectRetried;
+            _connectionMonitor.Disconnected -= ConnectionMonitor_Disconnected;
             _connectionMonitor.Dispose();
             _connectionMonitor = null;
         }
