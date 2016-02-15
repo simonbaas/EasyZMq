@@ -13,6 +13,33 @@ namespace EasyZMq.Tests
     {
         private static readonly TimeSpan WaitTimeout = TimeSpan.FromSeconds(10);
 
+        [Test]
+        public void One_publisher_one_subscriber_publish_message_with_empty_topic()
+        {
+            var tcs = new TaskCompletionSource<string>();
+
+            var subscriberTopic = string.Empty;
+            var message = "This is the message";
+
+            using (var publisher = CreatePublisher())
+            {
+                var port = publisher.Uri.Port;
+                using (var subscriber = CreateSubscriber(port, subscriberTopic))
+                {
+                    subscriber.On<string>(m => { tcs.SetResult(m); });
+                    subscriber.Start();
+
+                    // Let the subscriber connect to the publisher before publishing a message
+                    Thread.Sleep(500);
+
+                    publisher.PublishMessage(message);
+
+                    tcs.Task.Wait(WaitTimeout);
+                    Assert.AreEqual(message, tcs.Task.Result);
+                }
+            }
+        }
+
         [TestCase("", Description = "Empty topic")]
         [TestCase("A", Description = "Non-empty topic")]
         public void One_publisher_one_subscriber(string topic)
