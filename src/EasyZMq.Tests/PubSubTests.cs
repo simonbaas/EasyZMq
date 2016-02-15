@@ -64,7 +64,7 @@ namespace EasyZMq.Tests
                     Assert.AreEqual(message, tcs.Task.Result);
                 }
             }
-        }        
+        }
 
         [TestCase("", Description = "Empty topic")]
         [TestCase("A", Description = "Non-empty topic")]
@@ -78,25 +78,23 @@ namespace EasyZMq.Tests
             {
                 var port = publisher.Uri.Port;
                 using (var subscriber1 = CreateSubscriber(port, topic))
+                using (var subscriber2 = CreateSubscriber(port, topic))
                 {
-                    using (var subscriber2 = CreateSubscriber(port, topic))
-                    {
-                        subscriber1.On<string>(m => { tcs1.SetResult(m); });
-                        subscriber2.On<string>(m => { tcs2.SetResult(m); });
+                    subscriber1.On<string>(m => { tcs1.SetResult(m); });
+                    subscriber2.On<string>(m => { tcs2.SetResult(m); });
 
-                        subscriber1.Start();
-                        subscriber2.Start();
+                    subscriber1.Start();
+                    subscriber2.Start();
 
-                        // Let the subscribers connect to the publisher before publishing a message
-                        Thread.Sleep(500);
+                    // Let the subscribers connect to the publisher before publishing a message
+                    Thread.Sleep(500);
 
-                        publisher.PublishMessage(topic, message);
+                    publisher.PublishMessage(topic, message);
 
-                        Task.WaitAll(new Task[] { tcs1.Task, tcs2.Task }, WaitTimeout);
+                    Task.WaitAll(new Task[] { tcs1.Task, tcs2.Task }, WaitTimeout);
 
-                        Assert.AreEqual(message, tcs1.Task.Result);
-                        Assert.AreEqual(message, tcs2.Task.Result);
-                    }
+                    Assert.AreEqual(message, tcs1.Task.Result);
+                    Assert.AreEqual(message, tcs2.Task.Result);
                 }
             }
         }
@@ -116,26 +114,24 @@ namespace EasyZMq.Tests
             {
                 var port = publisher.Uri.Port;
                 using (var subscriber1 = CreateSubscriber(port, topic1))
+                using (var subscriber2 = CreateSubscriber(port, topic2))
                 {
-                    using (var subscriber2 = CreateSubscriber(port, topic2))
-                    {
-                        subscriber1.On<string>(m => { tcs1.SetResult(m); });
-                        subscriber2.On<string>(m => { tcs2.SetResult(m); });
+                    subscriber1.On<string>(m => { tcs1.SetResult(m); });
+                    subscriber2.On<string>(m => { tcs2.SetResult(m); });
 
-                        subscriber1.Start();
-                        subscriber2.Start();
+                    subscriber1.Start();
+                    subscriber2.Start();
 
-                        // Let the subscribers connect to the publisher before publishing messages
-                        Thread.Sleep(500);
+                    // Let the subscribers connect to the publisher before publishing messages
+                    Thread.Sleep(500);
 
-                        publisher.PublishMessage(topic1, message1);
-                        publisher.PublishMessage(topic2, message2);
+                    publisher.PublishMessage(topic1, message1);
+                    publisher.PublishMessage(topic2, message2);
 
-                        Task.WaitAll(new Task[] { tcs1.Task, tcs2.Task }, WaitTimeout);
+                    Task.WaitAll(new Task[] { tcs1.Task, tcs2.Task }, WaitTimeout);
 
-                        Assert.AreEqual(message1, tcs1.Task.Result);
-                        Assert.AreEqual(message2, tcs2.Task.Result);
-                    }
+                    Assert.AreEqual(message1, tcs1.Task.Result);
+                    Assert.AreEqual(message2, tcs2.Task.Result);
                 }
             }
         }
@@ -209,7 +205,7 @@ namespace EasyZMq.Tests
 
         private class AnotherTestMessage : TestMessage
         {
-            
+
         }
     }
 }
