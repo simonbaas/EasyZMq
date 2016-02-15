@@ -88,7 +88,6 @@
     <Compile Include="Sockets\Publisher\IPublisherSocket.cs" />
     <Compile Include="Sockets\IReceiverSocket.cs" />
     <Compile Include="Sockets\ISenderSocket.cs" />
-    <Compile Include="Sockets\ISocket.cs" />
     <Compile Include="Sockets\Subscriber\ISubscriberSocket.cs" />
     <Compile Include="Infrastructure\IMonitorConnection.cs" />
   </ItemGroup>

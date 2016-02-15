@@ -3,8 +3,9 @@ using System;
 
 namespace EasyZMq.Sockets.Subscriber
 {
-    public interface ISubscriberSocket : IStartableSocket, ISocket, IMonitorConnection
+    public interface ISubscriberSocket : IStartableSocket, IMonitorConnection, IDisposable
     {
+        Uri Uri { get; }
         IDisposable On<T>(Action<T> action);
     }
 }
