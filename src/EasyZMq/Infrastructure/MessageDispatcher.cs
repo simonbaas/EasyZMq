@@ -50,6 +50,11 @@ namespace EasyZMq.Infrastructure
 
         private void DispatchToSubscriber(dynamic message)
         {
+            if (TryDynamicDispatch(message))
+            {
+                return;
+            }
+
             Subscription subscription;
             if (!_subscriptions.TryGetValue(message.GetType(), out subscription))
             {
@@ -65,6 +70,26 @@ namespace EasyZMq.Infrastructure
             {
                 _logger.Error($"Subscriber for message type {message.GetType()} threw an unhandled exception", ex);
             }
+        }
+
+        private bool TryDynamicDispatch(dynamic message)
+        {
+            Subscription subscription;
+            if (!_subscriptions.TryGetValue(typeof(object), out subscription))
+            {
+                return false;
+            }
+
+            try
+            {
+                subscription.OnReceived(message);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Subscriber for dynamically dispatched message threw an unhandled exception", ex);
+            }
+
+            return true;
         }
 
         public void Dispose()

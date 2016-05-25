@@ -46,7 +46,7 @@ namespace EasyZMq.Configuration
 
         private void RegisterDefaultSerializer()
         {
-            _ioC.Register<ISerializer, JsonSerializer>();
+            _ioC.Register<ISerializer, TypeAwareJsonSerializer>();
         }
 
         private void RegisterDefaultLoggerFactory()

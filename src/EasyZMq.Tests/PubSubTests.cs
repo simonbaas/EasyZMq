@@ -187,14 +187,94 @@ namespace EasyZMq.Tests
             }
         }
 
+        [TestCase("", Description = "Empty topic")]
+        [TestCase("A", Description = "Non-empty topic")]
+        public void One_dynamic_publisher_one_dynamic_subscriber(string topic)
+        {
+            dynamic message = "This is the message's payload";
+
+            var tcs = new TaskCompletionSource<dynamic>();
+
+            using (var publisher = CreateDynamicPublisher())
+            {
+                var port = publisher.Uri.Port;
+
+                using (var subscriber = CreateDynamicSubscriber(port, topic))
+                {
+                    subscriber.On(m => tcs.SetResult(m));
+                    subscriber.Start();
+
+                    // Let the subscriber connect to the publisher before publishing messages
+                    Thread.Sleep(500);
+
+                    publisher.PublishMessage(topic, message);
+
+                    tcs.Task.Wait(WaitTimeout);
+
+                    var result = tcs.Task.Result;
+
+                    Assert.AreEqual(message, result);
+                }
+            }
+        }
+
+        [TestCase("", Description = "Empty topic")]
+        [TestCase("A", Description = "Non-empty topic")]
+        public void One_dynamic_publisher_one_dynamic_subscriber_rich_object_message(string topic)
+        {
+            var message = new TestMessage
+            {
+                MessageId = Guid.NewGuid(),
+                Payload = "This is the message's payload"
+            };
+
+            var tcs = new TaskCompletionSource<dynamic>();
+
+            using (var publisher = CreateDynamicPublisher())
+            {
+                var port = publisher.Uri.Port;
+
+                using (var subscriber = CreateDynamicSubscriber(port, topic))
+                {
+                    subscriber.On(m => tcs.SetResult(m));
+                    subscriber.Start();
+
+                    // Let the subscriber connect to the publisher before publishing messages
+                    Thread.Sleep(500);
+
+                    publisher.PublishMessage(topic, message);
+
+                    tcs.Task.Wait(WaitTimeout);
+
+                    var result = tcs.Task.Result;
+
+                    var receivedMessageId = (Guid)result.MessageId;
+                    var receivedPayload = (string)result.Payload;
+
+                    Assert.AreEqual(message.MessageId, receivedMessageId);
+                    Assert.AreEqual(message.Payload, receivedPayload);
+                }
+            }
+        }
+
         private static IPublisherSocket CreatePublisher()
         {
             return EasyZMqConfigure.BindRandomPort("tcp://localhost").AsPublisher();
         }
 
+        private static IDynamicPublisherSocket CreateDynamicPublisher()
+        {
+            return EasyZMqConfigure.BindRandomPort("tcp://localhost").AsDynamicPublisher();
+        }
+
         private static ISubscriberSocket CreateSubscriber(int port, string topic)
         {
             return EasyZMqConfigure.ConnectTo($"tcp://localhost:{port}").AsSubscriber(topic);
+        }
+
+        private static IDynamicSubscriberSocket CreateDynamicSubscriber(int port, string topic)
+        {
+            return EasyZMqConfigure.ConnectTo($"tcp://localhost:{port}").AsDynamicSubscriber(topic);
         }
 
         private class TestMessage

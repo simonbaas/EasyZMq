@@ -6,7 +6,7 @@ using NetMQ;
 
 namespace EasyZMq.Sockets.Subscriber
 {
-    internal class SubscriberSocket : AbstractReceiverSocket, ISubscriberSocket
+    internal class SubscriberSocket : AbstractReceiverSocket, ISubscriberSocket, IDynamicSubscriberSocket
     {
         private IMessageDispatcher _messageDispatcher;
 
@@ -29,6 +29,11 @@ namespace EasyZMq.Sockets.Subscriber
             subscription.Received += handler;
 
             return new DisposableAction(() => subscription.Received -= handler);
+        }
+
+        public IDisposable On(Action<dynamic> action)
+        {
+            return On<dynamic>(action);
         }
 
         public override void OnMessageReceived<T>(T message)
