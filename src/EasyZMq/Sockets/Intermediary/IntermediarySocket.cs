@@ -36,8 +36,8 @@ namespace EasyZMq.Sockets.Intermediary
         {
             if (_disposedValue) throw new ObjectDisposedException("IntermediarySocket");
 
-            _poller.RunAsync();
             _proxy.Start();
+            _poller.RunAsync();
         }
 
         private bool _disposedValue;

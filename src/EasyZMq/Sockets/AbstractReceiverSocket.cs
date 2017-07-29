@@ -21,7 +21,7 @@ namespace EasyZMq.Sockets
 
         protected AbstractReceiverSocket(ISerializer serializer, IAddressBinder addressBinder, ILoggerFactory loggerFactory, NetMQSocket socket)
         {
-            _logger = loggerFactory.GetLogger(typeof (AbstractReceiverSocket));
+            _logger = loggerFactory.GetLogger(typeof(AbstractReceiverSocket));
             _serializer = serializer;
             _addressBinder = addressBinder;
             _socket = socket;
@@ -146,17 +146,9 @@ namespace EasyZMq.Sockets
             {
                 if (disposing)
                 {
-                    if (_poller != null)
-                    {
-                        if (_poller.IsRunning)
-                        {
-                            _poller.Stop();
-                        }
-
-                        DisposeConnectionMonitor();
-                        DisposePoller();
-                        DisposeSocket();
-                    }
+                    DisposeConnectionMonitor();
+                    DisposePoller();
+                    DisposeSocket();
                 }
 
                 _disposedValue = true;
@@ -174,6 +166,11 @@ namespace EasyZMq.Sockets
 
         private void DisposePoller()
         {
+            if (_poller.IsRunning)
+            {
+                _poller.Stop();
+            }
+
             _poller.Dispose();
             _poller = null;
         }
