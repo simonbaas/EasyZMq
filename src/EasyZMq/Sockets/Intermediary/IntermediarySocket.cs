@@ -36,7 +36,7 @@ namespace EasyZMq.Sockets.Intermediary
         {
             if (_disposedValue) throw new ObjectDisposedException("IntermediarySocket");
 
-            _poller.Run();
+            _poller.RunAsync();
             _proxy.Start();
         }
 
@@ -65,8 +65,6 @@ namespace EasyZMq.Sockets.Intermediary
 
                     _frontendSocket.Dispose();
                     _frontendSocket = null;
-
-                    NetMQConfig.Cleanup();
                 }
 
                 _disposedValue = true;

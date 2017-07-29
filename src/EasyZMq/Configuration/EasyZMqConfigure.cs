@@ -1,5 +1,6 @@
 using System;
 using EasyZMq.Infrastructure;
+using NetMQ;
 
 namespace EasyZMq.Configuration
 {
@@ -32,6 +33,11 @@ namespace EasyZMq.Configuration
             var addressBinder = new BindRandomPortAddressBinder(address);
 
             return CreateConfigurer(addressBinder);
+        }
+
+        public static void Cleanup()
+        {
+            NetMQConfig.Cleanup();
         }
 
         private static EasyZMqConfigurer CreateConfigurer(IAddressBinder addressBinder)

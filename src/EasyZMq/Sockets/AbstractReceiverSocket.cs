@@ -39,8 +39,7 @@ namespace EasyZMq.Sockets
 
             _addressBinder.ConnectOrBindAddress(_socket);
 
-            //_poller.PollTillCancelledNonBlocking();
-            _poller.Run();
+            _poller.RunAsync();
         }
 
         public abstract void OnMessageReceived<T>(T message);
@@ -158,8 +157,6 @@ namespace EasyZMq.Sockets
                         DisposePoller();
                         DisposeSocket();
                     }
-
-                    NetMQConfig.Cleanup();
                 }
 
                 _disposedValue = true;
@@ -177,7 +174,6 @@ namespace EasyZMq.Sockets
 
         private void DisposePoller()
         {
-            _poller.Stop();
             _poller.Dispose();
             _poller = null;
         }

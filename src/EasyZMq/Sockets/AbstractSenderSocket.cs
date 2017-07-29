@@ -43,8 +43,6 @@ namespace EasyZMq.Sockets
                 {
                     _socket.Dispose();
                     _socket = null;
-
-                    NetMQConfig.Cleanup();
                 }
 
                 _disposedValue = true;
