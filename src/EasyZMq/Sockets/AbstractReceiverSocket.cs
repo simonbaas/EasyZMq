@@ -12,24 +12,22 @@ namespace EasyZMq.Sockets
         private readonly ISerializer _serializer;
         private readonly IAddressBinder _addressBinder;
         private IConnectionMonitor _connectionMonitor;
-        private NetMQContext _context;
         private NetMQSocket _socket;
-        private Poller _poller;
+        private NetMQPoller _poller;
 
         public event Action Connected;
         public event Action Disconnected;
         public event Action ConnectRetried;
 
-        protected AbstractReceiverSocket(ISerializer serializer, IAddressBinder addressBinder, ILoggerFactory loggerFactory, NetMQContext context, NetMQSocket socket)
+        protected AbstractReceiverSocket(ISerializer serializer, IAddressBinder addressBinder, ILoggerFactory loggerFactory, NetMQSocket socket)
         {
             _logger = loggerFactory.GetLogger(typeof (AbstractReceiverSocket));
             _serializer = serializer;
             _addressBinder = addressBinder;
-            _context = context;
             _socket = socket;
 
             CreatePoller(socket);
-            CreateConnectionMonitor(context, socket, _poller);
+            CreateConnectionMonitor(socket, _poller);
             ConfigureSocket(socket);
         }
 
@@ -41,19 +39,20 @@ namespace EasyZMq.Sockets
 
             _addressBinder.ConnectOrBindAddress(_socket);
 
-            _poller.PollTillCancelledNonBlocking();
+            //_poller.PollTillCancelledNonBlocking();
+            _poller.Run();
         }
 
         public abstract void OnMessageReceived<T>(T message);
 
         private void CreatePoller(ISocketPollable socket)
         {
-            _poller = new Poller(socket);
+            _poller = new NetMQPoller() { socket };
         }
 
-        private void CreateConnectionMonitor(NetMQContext context, NetMQSocket socket, Poller poller)
+        private void CreateConnectionMonitor(NetMQSocket socket, NetMQPoller poller)
         {
-            _connectionMonitor = new ConnectionMonitor(context, socket, poller);
+            _connectionMonitor = new ConnectionMonitor(socket, poller);
             _connectionMonitor.Connected += ConnectionMonitor_Connected;
             _connectionMonitor.ConnectRetried += ConnectionMonitor_ConnectRetried;
             _connectionMonitor.Disconnected += ConnectionMonitor_Disconnected;
@@ -150,13 +149,17 @@ namespace EasyZMq.Sockets
                 {
                     if (_poller != null)
                     {
-                        _poller.CancelAndJoin();
+                        if (_poller.IsRunning)
+                        {
+                            _poller.Stop();
+                        }
 
                         DisposeConnectionMonitor();
                         DisposePoller();
                         DisposeSocket();
-                        DisposeContext();
                     }
+
+                    NetMQConfig.Cleanup();
                 }
 
                 _disposedValue = true;
@@ -174,6 +177,7 @@ namespace EasyZMq.Sockets
 
         private void DisposePoller()
         {
+            _poller.Stop();
             _poller.Dispose();
             _poller = null;
         }
@@ -183,12 +187,6 @@ namespace EasyZMq.Sockets
             _socket.ReceiveReady -= Subscriber_ReceiveReady;
             _socket.Dispose();
             _socket = null;
-        }
-
-        private void DisposeContext()
-        {
-            _context.Dispose();
-            _context = null;
         }
     }
 }

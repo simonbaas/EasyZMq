@@ -12,14 +12,14 @@ namespace EasyZMq.Infrastructure
 
         private NetMQMonitor _monitor;
 
-        public ConnectionMonitor(NetMQContext context, NetMQSocket monitoredSocket, Poller poller)
+        public ConnectionMonitor(NetMQSocket monitoredSocket, NetMQPoller poller)
         {
-            _monitor = CreateMonitor(context, monitoredSocket, poller);
+            _monitor = CreateMonitor(monitoredSocket, poller);
         }
 
-        private NetMQMonitor CreateMonitor(NetMQContext context, NetMQSocket socket, Poller poller)
+        private NetMQMonitor CreateMonitor(NetMQSocket socket, NetMQPoller poller)
         {
-            var monitor = new NetMQMonitor(context, socket, $"inproc://{Guid.NewGuid()}.inproc",
+            var monitor = new NetMQMonitor(socket, $"inproc://{Guid.NewGuid()}.inproc",
                 SocketEvents.Connected | SocketEvents.Disconnected | SocketEvents.ConnectRetried);
 
             monitor.Connected += Monitor_Connected;

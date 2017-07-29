@@ -27,9 +27,8 @@ namespace EasyZMq.Sockets.Intermediary
         private static IIntermediarySocket CreateIntermediarySocket(IAddressBinder frontendAddressBinder,
             IAddressBinder backendAddressBinder)
         {
-            var context = NetMQContext.Create();
-            var frontendSocket = context.CreateXSubscriberSocket();
-            var backendSocket = context.CreateXPublisherSocket();
+            var frontendSocket = new NetMQ.Sockets.XSubscriberSocket();
+            var backendSocket = new NetMQ.Sockets.XPublisherSocket();
 
             return new IntermediarySocket(frontendAddressBinder, backendAddressBinder, frontendSocket, backendSocket);
         }

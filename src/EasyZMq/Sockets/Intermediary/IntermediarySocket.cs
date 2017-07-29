@@ -11,7 +11,7 @@ namespace EasyZMq.Sockets.Intermediary
         private readonly IAddressBinder _backendAddressBinder;
         private XSubscriberSocket _frontendSocket;
         private XPublisherSocket _backendSocket;
-        private Poller _poller;
+        private NetMQPoller _poller;
         private Proxy _proxy;
 
         public IntermediarySocket(IAddressBinder frontendAddressBinder, IAddressBinder backendAddressBinder,
@@ -25,7 +25,7 @@ namespace EasyZMq.Sockets.Intermediary
             _frontendAddressBinder.ConnectOrBindAddress(_frontendSocket);
             _backendAddressBinder.ConnectOrBindAddress(_backendSocket);
 
-            _poller = new Poller(_frontendSocket, _backendSocket);
+            _poller = new NetMQPoller { _frontendSocket, _backendSocket };
             _proxy = new Proxy(frontendSocket, backendSocket, poller: _poller);
         }
 
@@ -36,7 +36,7 @@ namespace EasyZMq.Sockets.Intermediary
         {
             if (_disposedValue) throw new ObjectDisposedException("IntermediarySocket");
 
-            _poller.PollTillCancelledNonBlocking();
+            _poller.Run();
             _proxy.Start();
         }
 
@@ -56,7 +56,7 @@ namespace EasyZMq.Sockets.Intermediary
                     _proxy.Stop();
                     _proxy = null;
 
-                    _poller.CancelAndJoin();
+                    _poller.Stop();
                     _poller.Dispose();
                     _poller = null;
 
@@ -65,6 +65,8 @@ namespace EasyZMq.Sockets.Intermediary
 
                     _frontendSocket.Dispose();
                     _frontendSocket = null;
+
+                    NetMQConfig.Cleanup();
                 }
 
                 _disposedValue = true;

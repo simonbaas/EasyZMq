@@ -11,8 +11,8 @@ namespace EasyZMq.Sockets.Subscriber
         private IMessageDispatcher _messageDispatcher;
 
         public SubscriberSocket(ISerializer serializer, IAddressBinder addressBinder, ILoggerFactory loggerFactory, IMessageDispatcher messageDispatcher,
-            NetMQContext context, NetMQSocket socket)
-            : base(serializer, addressBinder, loggerFactory, context, socket)
+            NetMQSocket socket)
+            : base(serializer, addressBinder, loggerFactory, socket)
         {
             _messageDispatcher = messageDispatcher;
         }

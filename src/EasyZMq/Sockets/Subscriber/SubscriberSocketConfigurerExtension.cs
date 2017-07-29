@@ -13,11 +13,10 @@ namespace EasyZMq.Sockets.Subscriber
             var loggerFactory = configurer.LoggerFactory;
             var messageDispatcher = configurer.MessageDispatcher;
 
-            var context = NetMQContext.Create();
-            var socket = context.CreateSubscriberSocket();
+            var socket = new NetMQ.Sockets.SubscriberSocket();
             socket.Subscribe(topic);
 
-            return new SubscriberSocket(serializer, addressBinder, loggerFactory, messageDispatcher, context, socket);
+            return new SubscriberSocket(serializer, addressBinder, loggerFactory, messageDispatcher, socket);
         }
 
         public static IDynamicSubscriberSocket AsDynamicSubscriber(this EasyZMqConfigurer configurer, string topic)
@@ -27,11 +26,10 @@ namespace EasyZMq.Sockets.Subscriber
             var loggerFactory = configurer.LoggerFactory;
             var messageDispatcher = configurer.MessageDispatcher;
 
-            var context = NetMQContext.Create();
-            var socket = context.CreateSubscriberSocket();
+            var socket = new NetMQ.Sockets.SubscriberSocket();
             socket.Subscribe(topic);
 
-            return new SubscriberSocket(serializer, addressBinder, loggerFactory, messageDispatcher, context, socket);
+            return new SubscriberSocket(serializer, addressBinder, loggerFactory, messageDispatcher, socket);
         }
     }
 }

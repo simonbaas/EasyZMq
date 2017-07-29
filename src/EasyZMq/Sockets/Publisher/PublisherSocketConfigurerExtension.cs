@@ -10,8 +10,7 @@ namespace EasyZMq.Sockets.Publisher
         {
             var serializer = configurer.Serializer;
             var addressBinder = configurer.AddressBinder;
-            var context = NetMQContext.Create();
-            var socket = context.CreatePublisherSocket();
+            var socket = new NetMQ.Sockets.PublisherSocket();
 
             return new PublisherSocket(serializer, addressBinder, socket);
         }
@@ -20,8 +19,7 @@ namespace EasyZMq.Sockets.Publisher
         {
             var serializer = new TypeUnawareJsonSerializer();
             var addressBinder = configurer.AddressBinder;
-            var context = NetMQContext.Create();
-            var socket = context.CreatePublisherSocket();
+            var socket = new NetMQ.Sockets.PublisherSocket();
 
             return new PublisherSocket(serializer, addressBinder, socket);
         }
