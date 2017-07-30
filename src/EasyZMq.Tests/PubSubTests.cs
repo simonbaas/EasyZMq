@@ -276,16 +276,5 @@ namespace EasyZMq.Tests
         {
             return EasyZMqConfigure.ConnectTo($"tcp://localhost:{port}").AsDynamicSubscriber(topic);
         }
-
-        private class TestMessage
-        {
-            public Guid MessageId { get; set; }
-            public string Payload { get; set; }
-        }
-
-        private class AnotherTestMessage : TestMessage
-        {
-
-        }
     }
 }
