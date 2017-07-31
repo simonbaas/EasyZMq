@@ -104,7 +104,6 @@ namespace EasyZMq.Sockets
         private void ConfigureSocket(NetMQSocket socket)
         {
             socket.Options.TcpKeepalive = true;
-            socket.Options.TcpKeepaliveIdle = TimeSpan.FromSeconds(5);
             socket.Options.TcpKeepaliveInterval = TimeSpan.FromSeconds(1);
             socket.ReceiveReady += Subscriber_ReceiveReady;
         }
