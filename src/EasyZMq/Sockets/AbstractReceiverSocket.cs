@@ -15,6 +15,8 @@ namespace EasyZMq.Sockets
         private NetMQSocket _socket;
         private NetMQPoller _poller;
 
+        private bool _isStarted = false;
+
         public event Action Connected;
         public event Action Disconnected;
         public event Action ConnectRetried;
@@ -36,10 +38,13 @@ namespace EasyZMq.Sockets
         public void Start()
         {
             if (_disposedValue) throw new ObjectDisposedException("EasyZMqReceiverSocket");
+            if (_isStarted) throw new InvalidOperationException("Subscriber already running!");
 
             _addressBinder.ConnectOrBindAddress(_socket);
 
             _poller.RunAsync();
+
+            _isStarted = true;
         }
 
         public abstract void OnMessageReceived<T>(T message);
