@@ -146,6 +146,11 @@ namespace EasyZMq.Sockets
             {
                 if (disposing)
                 {
+                    if (_poller.IsRunning)
+                    {
+                        _poller.Stop();
+                    }
+
                     DisposeConnectionMonitor();
                     DisposePoller();
                     DisposeSocket();
