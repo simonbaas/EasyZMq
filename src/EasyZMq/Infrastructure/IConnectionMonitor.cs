@@ -4,6 +4,6 @@ namespace EasyZMq.Infrastructure
 {
     internal interface IConnectionMonitor : IMonitorConnection, IDisposable
     {
-
+        void Stop();
     }
 }

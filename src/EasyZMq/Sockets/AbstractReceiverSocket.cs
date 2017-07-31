@@ -46,7 +46,7 @@ namespace EasyZMq.Sockets
 
         private void CreatePoller(ISocketPollable socket)
         {
-            _poller = new NetMQPoller() { socket };
+            _poller = new NetMQPoller { socket };
         }
 
         private void CreateConnectionMonitor(NetMQSocket socket, NetMQPoller poller)
@@ -146,9 +146,11 @@ namespace EasyZMq.Sockets
             {
                 if (disposing)
                 {
-                    DisposeConnectionMonitor();
+                    _connectionMonitor.Stop();
+
                     DisposePoller();
                     DisposeSocket();
+                    DisposeConnectionMonitor();
                 }
 
                 _disposedValue = true;
@@ -166,11 +168,6 @@ namespace EasyZMq.Sockets
 
         private void DisposePoller()
         {
-            if (_poller.IsRunning)
-            {
-                _poller.Stop();
-            }
-
             _poller.Dispose();
             _poller = null;
         }

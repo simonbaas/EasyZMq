@@ -17,6 +17,11 @@ namespace EasyZMq.Infrastructure
             _monitor = CreateMonitor(monitoredSocket, poller);
         }
 
+        public void Stop()
+        {
+            _monitor.DetachFromPoller();
+        }
+
         private NetMQMonitor CreateMonitor(NetMQSocket socket, NetMQPoller poller)
         {
             var monitor = new NetMQMonitor(socket, $"inproc://{Guid.NewGuid()}.inproc",

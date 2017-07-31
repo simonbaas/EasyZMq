@@ -56,7 +56,6 @@ namespace EasyZMq.Sockets.Intermediary
                     _proxy.Stop();
                     _proxy = null;
 
-                    _poller.Stop();
                     _poller.Dispose();
                     _poller = null;
 
