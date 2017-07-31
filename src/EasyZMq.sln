@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyZMq.Log4Net", "EasyZMq.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyZMq.Tests", "EasyZMq.Tests\EasyZMq.Tests.csproj", "{9ACC4416-C253-4EB5-9820-CD6D96C1C103}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyZMq.Console", "EasyZMq.Console\EasyZMq.Console.csproj", "{456F8614-F011-433B-97E9-165150B7F6D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9ACC4416-C253-4EB5-9820-CD6D96C1C103}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ACC4416-C253-4EB5-9820-CD6D96C1C103}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ACC4416-C253-4EB5-9820-CD6D96C1C103}.Release|Any CPU.Build.0 = Release|Any CPU
+		{456F8614-F011-433B-97E9-165150B7F6D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456F8614-F011-433B-97E9-165150B7F6D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456F8614-F011-433B-97E9-165150B7F6D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456F8614-F011-433B-97E9-165150B7F6D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
