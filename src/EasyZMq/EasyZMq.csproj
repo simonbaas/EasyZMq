@@ -1,6 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <AssemblyName>EasyZMq</AssemblyName>
+    <PackageId>EasyZMq</PackageId>
+    <Authors>Simon Baas</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <AssemblyTitle>EasyZMq</AssemblyTitle>
+    <Description>A library to provide an easy api when working with ZeroMQ (ØMQ) on .NET</Description>
+    <Copyright>Simon Baas 2017</Copyright>
+    <PackageTags>easyzmq zmq ømq messaging queue</PackageTags>
+    <PackageProjectUrl>https://github.com/simonbaas/EasyZMq</PackageProjectUrl>
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <TargetFramework>netstandard1.5</TargetFramework>
   </PropertyGroup>
 
