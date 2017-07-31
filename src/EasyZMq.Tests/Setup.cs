@@ -1,13 +1,11 @@
-﻿using NetMQ;
-using NUnit.Framework;
+﻿using System;
+using NetMQ;
 
 namespace EasyZMq.Tests
 {
-    [SetUpFixture]
-    public class Setup
+    public class TestsFixture : IDisposable
     {
-        [OneTimeTearDown]
-        public void TearDown()
+        public void Dispose()
         {
             NetMQConfig.Cleanup(false);
         }

@@ -4,16 +4,15 @@ using System.Threading.Tasks;
 using EasyZMq.Configuration;
 using EasyZMq.Sockets.Publisher;
 using EasyZMq.Sockets.Subscriber;
-using NUnit.Framework;
+using Xunit;
 
 namespace EasyZMq.Tests
 {
-    [TestFixture(Author = "Simon Baas", Description = "Pub/Sub Tests")]
-    public class PubSubTests
+    public class PubSubTests : IClassFixture<TestsFixture>
     {
         private static readonly TimeSpan WaitTimeout = TimeSpan.FromSeconds(10);
 
-        [Test]
+        [Fact]
         public void One_publisher_one_subscriber_publish_message_with_empty_topic()
         {
             var tcs = new TaskCompletionSource<string>();
@@ -35,13 +34,14 @@ namespace EasyZMq.Tests
                     publisher.PublishMessage(message);
 
                     tcs.Task.Wait(WaitTimeout);
-                    Assert.AreEqual(message, tcs.Task.Result);
+                    Assert.Equal(message, tcs.Task.Result);
                 }
             }
         }
 
-        [TestCase("", Description = "Empty topic")]
-        [TestCase("A", Description = "Non-empty topic")]
+        [Theory]
+        [InlineData("")]
+        [InlineData("A")]
         public void One_publisher_one_subscriber(string topic)
         {
             var message = "This is the message";
@@ -61,13 +61,14 @@ namespace EasyZMq.Tests
                     publisher.PublishMessage(topic, message);
 
                     tcs.Task.Wait(WaitTimeout);
-                    Assert.AreEqual(message, tcs.Task.Result);
+                    Assert.Equal(message, tcs.Task.Result);
                 }
             }
         }
 
-        [TestCase("", Description = "Empty topic")]
-        [TestCase("A", Description = "Non-empty topic")]
+        [Theory]
+        [InlineData("")]
+        [InlineData("A")]
         public void One_publisher_multiple_subscribers(string topic)
         {
             var message = "This is the message";
@@ -93,13 +94,13 @@ namespace EasyZMq.Tests
 
                     Task.WaitAll(new Task[] { tcs1.Task, tcs2.Task }, WaitTimeout);
 
-                    Assert.AreEqual(message, tcs1.Task.Result);
-                    Assert.AreEqual(message, tcs2.Task.Result);
+                    Assert.Equal(message, tcs1.Task.Result);
+                    Assert.Equal(message, tcs2.Task.Result);
                 }
             }
         }
 
-        [Test]
+        [Fact]
         public void One_publisher_multiple_subscribers_different_topics()
         {
             var message1 = "This is the message - Topic A";
@@ -130,13 +131,13 @@ namespace EasyZMq.Tests
 
                     Task.WaitAll(new Task[] { tcs1.Task, tcs2.Task }, WaitTimeout);
 
-                    Assert.AreEqual(message1, tcs1.Task.Result);
-                    Assert.AreEqual(message2, tcs2.Task.Result);
+                    Assert.Equal(message1, tcs1.Task.Result);
+                    Assert.Equal(message2, tcs2.Task.Result);
                 }
             }
         }
 
-        [Test]
+        [Fact]
         public void One_publisher_one_subscriber_rich_object_messages()
         {
             var topic = "";
@@ -177,18 +178,19 @@ namespace EasyZMq.Tests
                     var result2 = tcs2.Task.Result;
 
                     Assert.IsAssignableFrom<TestMessage>(result1);
-                    Assert.AreEqual(message1.MessageId, result1.MessageId);
-                    Assert.AreEqual(message1.Payload, result1.Payload);
+                    Assert.Equal(message1.MessageId, result1.MessageId);
+                    Assert.Equal(message1.Payload, result1.Payload);
 
                     Assert.IsAssignableFrom<AnotherTestMessage>(result2);
-                    Assert.AreEqual(message2.MessageId, result2.MessageId);
-                    Assert.AreEqual(message2.Payload, result2.Payload);
+                    Assert.Equal(message2.MessageId, result2.MessageId);
+                    Assert.Equal(message2.Payload, result2.Payload);
                 }
             }
         }
 
-        [TestCase("", Description = "Empty topic")]
-        [TestCase("A", Description = "Non-empty topic")]
+        [Theory]
+        [InlineData("")]
+        [InlineData("A")]
         public void One_dynamic_publisher_one_dynamic_subscriber(string topic)
         {
             dynamic message = "This is the message's payload";
@@ -213,13 +215,14 @@ namespace EasyZMq.Tests
 
                     var result = tcs.Task.Result;
 
-                    Assert.AreEqual(message, result);
+                    Assert.Equal(message, result);
                 }
             }
         }
 
-        [TestCase("", Description = "Empty topic")]
-        [TestCase("A", Description = "Non-empty topic")]
+        [Theory]
+        [InlineData("")]
+        [InlineData("A")]
         public void One_dynamic_publisher_one_dynamic_subscriber_rich_object_message(string topic)
         {
             var message = new TestMessage
@@ -251,8 +254,8 @@ namespace EasyZMq.Tests
                     var receivedMessageId = (Guid)result.MessageId;
                     var receivedPayload = (string)result.Payload;
 
-                    Assert.AreEqual(message.MessageId, receivedMessageId);
-                    Assert.AreEqual(message.Payload, receivedPayload);
+                    Assert.Equal(message.MessageId, receivedMessageId);
+                    Assert.Equal(message.Payload, receivedPayload);
                 }
             }
         }

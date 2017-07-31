@@ -6,17 +6,17 @@ using EasyZMq.Configuration;
 using EasyZMq.Sockets.Intermediary;
 using EasyZMq.Sockets.Publisher;
 using EasyZMq.Sockets.Subscriber;
-using NUnit.Framework;
+using Xunit;
 
 namespace EasyZMq.Tests
 {
-    [TestFixture(Author = "Simon Baas", Description = "XPub/XSub Tests Using Intermediary")]
-    public class XPubSubTests
+    public class XPubSubTests : IClassFixture<TestsFixture>
     {
         private static readonly TimeSpan WaitTimeout = TimeSpan.FromSeconds(10);
 
-        [TestCase("", Description = "Empty topic")]
-        [TestCase("A", Description = "Non-empty topic")]
+        [Theory]
+        [InlineData("")]
+        [InlineData("A")]
         public void One_publisher_one_subscriber(string topic)
         {
             var message = "This is the message";
@@ -44,13 +44,14 @@ namespace EasyZMq.Tests
 
                     tcs.Task.Wait(WaitTimeout);
 
-                    Assert.AreEqual(message, tcs.Task.Result);
+                    Assert.Equal(message, tcs.Task.Result);
                 }
             }
         }
 
-        [TestCase("", Description = "Empty topic")]
-        [TestCase("A", Description = "Non-empty topic")]
+        [Theory]
+        [InlineData("")]
+        [InlineData("A")]
         public void Multiple_publishers_one_subscriber(string topic)
         {
             var message1 = "This is the message - 1";
@@ -89,8 +90,9 @@ namespace EasyZMq.Tests
             }
         }
 
-        [TestCase("", Description = "Empty topic")]
-        [TestCase("A", Description = "Non-empty topic")]
+        [Theory]
+        [InlineData("")]
+        [InlineData("A")]
         public void Multiple_publishers_multiple_subscribers(string topic)
         {
             var message1 = "This is the message - 1";
@@ -139,7 +141,7 @@ namespace EasyZMq.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void Multiple_publishers_multiple_subscribers_different_topics()
         {
             var topic1 = "Topic 1";
@@ -181,10 +183,10 @@ namespace EasyZMq.Tests
 
                     Task.WaitAll(new Task[] { tcs1.Task, tcs2.Task }, WaitTimeout);
 
-                    Assert.AreEqual(1, receivedMessages1.Count);
+                    Assert.Equal(1, receivedMessages1.Count);
                     Assert.Contains(message1, receivedMessages1);
                     
-                    Assert.AreEqual(1, receivedMessages2.Count);
+                    Assert.Equal(1, receivedMessages2.Count);
                     Assert.Contains(message2, receivedMessages2);
                 }
             }

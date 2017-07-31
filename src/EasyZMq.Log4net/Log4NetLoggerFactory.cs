@@ -1,7 +1,7 @@
 ﻿using System;
 using EasyZMq.Logging;
 
-namespace EasyZMq.Log4net
+namespace EasyZMq.Log4Net
 {
     public class Log4NetLoggerFactory : AbstractLoggerFactory
     {

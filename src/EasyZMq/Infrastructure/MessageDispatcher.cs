@@ -111,7 +111,6 @@ namespace EasyZMq.Infrastructure
                         _task.Wait();
 
                         _cts.Dispose();
-                        _task.Dispose();
 
                         _cts = null;
                         _task = null;

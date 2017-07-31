@@ -1,6 +1,6 @@
 ﻿using EasyZMq.Configuration;
 
-namespace EasyZMq.Log4net
+namespace EasyZMq.Log4Net
 {
     public static class Log4NetConfigurerExtension
     {

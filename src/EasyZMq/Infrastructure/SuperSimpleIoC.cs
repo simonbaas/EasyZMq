@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace EasyZMq.Infrastructure
 {
@@ -58,7 +59,7 @@ namespace EasyZMq.Infrastructure
 
         private IEnumerable<object> ResolveConstructorParameters(Type concreteType)
         {
-            var constructorInfo = concreteType.GetConstructors().First();
+            var constructorInfo = concreteType.GetTypeInfo().GetConstructors().First();
             return constructorInfo.GetParameters().Select(parameterInfo => Resolve(parameterInfo.ParameterType));
         }
 

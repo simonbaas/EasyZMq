@@ -2,7 +2,7 @@
 using EasyZMq.Logging;
 using log4net;
 
-namespace EasyZMq.Log4net
+namespace EasyZMq.Log4Net
 {
     public class Log4NetLogger : ILogger
     {
